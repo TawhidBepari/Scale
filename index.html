@@ -1,6 +1,645 @@
 <!doctype html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Scale — Premium Growth Systems</title>
+
+  <meta
+    name="description"
+    content="Premium growth systems, mentorship, automation and digital scaling solutions for serious entrepreneurs."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0b0f14;
+      color:#fff;
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .container{
+      width:min(1180px,92%);
+      margin:auto;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:999;
+      background:rgba(11,15,20,.75);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 0;
+    }
+
+    .logo{
+      font-size:1.4rem;
+      font-weight:800;
+      letter-spacing:-1px;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:26px;
+      color:#cfd7df;
+      font-size:.95rem;
+    }
+
+    .hero{
+      padding:110px 0 90px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#13202d;
+      color:#7dd3fc;
+      font-size:.85rem;
+      margin-bottom:24px;
+    }
+
+    h1{
+      font-size:4rem;
+      line-height:1.05;
+      margin-bottom:22px;
+      letter-spacing:-2px;
+    }
+
+    .hero p{
+      color:#b7c2ce;
+      font-size:1.08rem;
+      margin-bottom:30px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:16px 26px;
+      border-radius:14px;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition:.2s;
+      font-size:.95rem;
+    }
+
+    .btn-primary{
+      background:#fff;
+      color:#000;
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-secondary{
+      background:#161d26;
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .hero-card{
+      background:linear-gradient(180deg,#121923,#0e141c);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:28px;
+      padding:32px;
+      box-shadow:0 30px 80px rgba(0,0,0,.45);
+    }
+
+    .mini-stat{
+      display:flex;
+      justify-content:space-between;
+      padding:18px 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .mini-stat:last-child{
+      border:none;
+    }
+
+    .label{
+      color:#93a4b4;
+    }
+
+    .value{
+      font-weight:700;
+    }
+
+    section{
+      padding:90px 0;
+    }
+
+    .section-title{
+      font-size:2.4rem;
+      margin-bottom:14px;
+      letter-spacing:-1px;
+    }
+
+    .section-sub{
+      color:#9fb0c0;
+      max-width:720px;
+      margin-bottom:48px;
+    }
+
+    .services{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:26px;
+    }
+
+    .service-card{
+      background:#111821;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:28px;
+      transition:.25s;
+    }
+
+    .service-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(255,255,255,.14);
+    }
+
+    .service-tag{
+      display:inline-block;
+      background:#1a2532;
+      color:#7dd3fc;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:.8rem;
+      margin-bottom:18px;
+    }
+
+    .service-card h3{
+      font-size:1.4rem;
+      margin-bottom:12px;
+    }
+
+    .service-card p{
+      color:#9fb0c0;
+      margin-bottom:24px;
+    }
+
+    .service-price{
+      font-size:2rem;
+      font-weight:800;
+      margin-bottom:20px;
+    }
+
+    .card-btn{
+      display:inline-block;
+      width:100%;
+      text-align:center;
+      background:#fff;
+      color:#000;
+      padding:14px;
+      border-radius:14px;
+      font-weight:700;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+    }
+
+    .info-box{
+      background:#111821;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:28px;
+    }
+
+    .info-box h3{
+      margin-bottom:18px;
+      font-size:1.3rem;
+    }
+
+    .countdown{
+      font-size:2.8rem;
+      font-weight:800;
+      margin-top:12px;
+    }
+
+    .reviews{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
+    }
+
+    .review{
+      background:#111821;
+      border-radius:22px;
+      padding:26px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .review p{
+      color:#c1ccd8;
+      margin-bottom:18px;
+    }
+
+    .review strong{
+      display:block;
+      margin-top:12px;
+    }
+
+    .cta{
+      text-align:center;
+      background:linear-gradient(180deg,#121923,#0e141c);
+      border-radius:34px;
+      padding:70px 40px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .cta h2{
+      font-size:3rem;
+      margin-bottom:20px;
+    }
+
+    .cta p{
+      color:#a8b5c2;
+      max-width:720px;
+      margin:auto auto 32px;
+    }
+
+    footer{
+      padding:40px 0;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:#93a4b4;
+      text-align:center;
+    }
+
+    @media(max-width:900px){
+
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:3rem;
+      }
+
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
 <body>
-Home
+
+<header>
+  <div class="container nav">
+
+    <div class="logo">
+      SCALE
+    </div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">Reviews</a>
+      <a href="#">Contact</a>
+    </div>
+
+  </div>
+</header>
+
+<section class="hero container">
+
+  <div>
+
+    <div class="eyebrow">
+      Premium Growth Systems
+    </div>
+
+    <h1>
+      Scale Smarter.<br>
+      Grow Faster.
+    </h1>
+
+    <p>
+      Premium mentorship, automation systems, growth frameworks and business scaling solutions for entrepreneurs who want serious results.
+    </p>
+
+    <div class="hero-buttons">
+
+      <a href="#services" class="btn btn-primary">
+        Explore Services
+      </a>
+
+      <a href="#reviews" class="btn btn-secondary">
+        Client Results
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="hero-card">
+
+    <div class="mini-stat">
+      <span class="label">Seats Remaining</span>
+      <span class="value">12 Spots</span>
+    </div>
+
+    <div class="mini-stat">
+      <span class="label">Next Session Starts</span>
+      <span class="value">May 28</span>
+    </div>
+
+    <div class="mini-stat">
+      <span class="label">Average Client Growth</span>
+      <span class="value">3.7x</span>
+    </div>
+
+    <div class="mini-stat">
+      <span class="label">Bonus Included</span>
+      <span class="value">AI Toolkit Pack</span>
+    </div>
+
+  </div>
+
+</section>
+
+<section id="services" class="container">
+
+  <h2 class="section-title">
+    Featured Services
+  </h2>
+
+  <p class="section-sub">
+    Flexible premium programs designed to help entrepreneurs scale with clarity, systems and modern growth strategies.
+  </p>
+
+  <div class="services">
+
+    <div class="service-card">
+
+      <div class="service-tag">
+        Most Popular
+      </div>
+
+      <h3>
+        Growth Mentorship
+      </h3>
+
+      <p>
+        High-level mentorship program focused on scaling systems, positioning and business growth strategy.
+      </p>
+
+      <div class="service-price">
+        $299
+      </div>
+
+      <a href="service.html" class="card-btn">
+        View Service
+      </a>
+
+    </div>
+
+    <div class="service-card">
+
+      <div class="service-tag">
+        Automation
+      </div>
+
+      <h3>
+        AI Business Systems
+      </h3>
+
+      <p>
+        Learn modern AI workflows, automation frameworks and systems to increase productivity and revenue.
+      </p>
+
+      <div class="service-price">
+        $199
+      </div>
+
+      <a href="service.html" class="card-btn">
+        View Service
+      </a>
+
+    </div>
+
+    <div class="service-card">
+
+      <div class="service-tag">
+        Premium
+      </div>
+
+      <h3>
+        Private Strategy Access
+      </h3>
+
+      <p>
+        Personalized strategy sessions and direct scaling consultation for advanced entrepreneurs.
+      </p>
+
+      <div class="service-price">
+        $599
+      </div>
+
+      <a href="service.html" class="card-btn">
+        View Service
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="container">
+
+  <div class="grid-2">
+
+    <div class="info-box">
+
+      <h3>
+        Enrollment Closing Soon
+      </h3>
+
+      <p>
+        Current pricing and bonuses expire when the timer ends.
+      </p>
+
+      <div class="countdown" id="countdown">
+        04:12:56
+      </div>
+
+    </div>
+
+    <div class="info-box">
+
+      <h3>
+        Included Bonuses
+      </h3>
+
+      <p>
+        Every enrollment currently includes:
+      </p>
+
+      <ul style="margin-top:18px;padding-left:20px;color:#c4d0db;">
+
+        <li>AI Prompt Library</li>
+        <li>Growth Templates</li>
+        <li>Private Resources</li>
+        <li>Scaling Framework PDFs</li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section id="reviews" class="container">
+
+  <h2 class="section-title">
+    Client Reviews
+  </h2>
+
+  <p class="section-sub">
+    Real feedback from entrepreneurs and business owners.
+  </p>
+
+  <div class="reviews">
+
+    <div class="review">
+      <p>
+        “One of the clearest growth systems I’ve ever followed. Everything became easier to scale.”
+      </p>
+
+      <strong>
+        — Sarah M.
+      </strong>
+    </div>
+
+    <div class="review">
+      <p>
+        “The automation systems alone saved me hours every week.”
+      </p>
+
+      <strong>
+        — Daniel K.
+      </strong>
+    </div>
+
+    <div class="review">
+      <p>
+        “The structure, clarity and mentorship completely changed how I run my business.”
+      </p>
+
+      <strong>
+        — Ahmed R.
+      </strong>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="container">
+
+  <div class="cta">
+
+    <h2>
+      Ready To Scale?
+    </h2>
+
+    <p>
+      Choose your preferred service, reserve your spot and receive payment instructions directly through email.
+    </p>
+
+    <a href="#services" class="btn btn-primary">
+      Get Started
+    </a>
+
+  </div>
+
+</section>
+
+<footer>
+
+  <div class="container">
+
+    © 2026 SCALE — Premium Growth Systems
+
+  </div>
+
+</footer>
+
+<script>
+
+  // SIMPLE COUNTDOWN
+
+  const countdown = document.getElementById("countdown");
+
+  const target = new Date();
+  target.setHours(target.getHours() + 96);
+
+  function updateCountdown(){
+
+    const now = new Date();
+
+    const diff = target - now;
+
+    const h = Math.floor(diff / 1000 / 60 / 60);
+    const m = Math.floor(diff / 1000 / 60) % 60;
+    const s = Math.floor(diff / 1000) % 60;
+
+    countdown.innerHTML =
+      String(h).padStart(2,"0") + ":" +
+      String(m).padStart(2,"0") + ":" +
+      String(s).padStart(2,"0");
+
+  }
+
+  setInterval(updateCountdown,1000);
+
+  updateCountdown();
+
+</script>
+
 </body>
 </html>
