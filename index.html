@@ -116,6 +116,7 @@
       cursor:pointer;
       transition:.2s;
       font-size:.95rem;
+      display:inline-block;
     }
 
     .btn-primary{
@@ -141,23 +142,36 @@
       box-shadow:0 30px 80px rgba(0,0,0,.45);
     }
 
-    .mini-stat{
+    .hero-card img{
+      width:100%;
+      border-radius:20px;
+      margin-bottom:24px;
+    }
+
+    .hero-card h3{
+      font-size:1.8rem;
+      margin-bottom:12px;
+    }
+
+    .hero-card p{
+      color:#aab7c4;
+      margin-bottom:20px;
+    }
+
+    .hero-highlight{
       display:flex;
-      justify-content:space-between;
-      padding:18px 0;
-      border-bottom:1px solid rgba(255,255,255,.06);
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:18px;
     }
 
-    .mini-stat:last-child{
-      border:none;
-    }
-
-    .label{
-      color:#93a4b4;
-    }
-
-    .value{
-      font-weight:700;
+    .highlight-item{
+      background:#131b24;
+      border:1px solid rgba(255,255,255,.06);
+      padding:12px 16px;
+      border-radius:14px;
+      color:#c7d3de;
+      font-size:.92rem;
     }
 
     section{
@@ -221,6 +235,16 @@
       margin-bottom:20px;
     }
 
+    .service-features{
+      margin-bottom:24px;
+      padding-left:18px;
+      color:#c7d3de;
+    }
+
+    .service-features li{
+      margin-bottom:10px;
+    }
+
     .card-btn{
       display:inline-block;
       width:100%;
@@ -230,30 +254,6 @@
       padding:14px;
       border-radius:14px;
       font-weight:700;
-    }
-
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:28px;
-    }
-
-    .info-box{
-      background:#111821;
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:24px;
-      padding:28px;
-    }
-
-    .info-box h3{
-      margin-bottom:18px;
-      font-size:1.3rem;
-    }
-
-    .countdown{
-      font-size:2.8rem;
-      font-weight:800;
-      margin-top:12px;
     }
 
     .reviews{
@@ -315,10 +315,6 @@
         font-size:3rem;
       }
 
-      .grid-2{
-        grid-template-columns:1fr;
-      }
-
     }
 
   </style>
@@ -335,8 +331,8 @@
 
     <div class="nav-links">
       <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">Reviews</a>
+      <a href="#services">Services</a>
+      <a href="#reviews">Reviews</a>
       <a href="#">Contact</a>
     </div>
 
@@ -376,24 +372,34 @@
 
   <div class="hero-card">
 
-    <div class="mini-stat">
-      <span class="label">Seats Remaining</span>
-      <span class="value">12 Spots</span>
-    </div>
+    <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop" alt="Growth">
 
-    <div class="mini-stat">
-      <span class="label">Next Session Starts</span>
-      <span class="value">May 28</span>
-    </div>
+    <h3>
+      Built For Serious Growth
+    </h3>
 
-    <div class="mini-stat">
-      <span class="label">Average Client Growth</span>
-      <span class="value">3.7x</span>
-    </div>
+    <p>
+      Every service inside SCALE is designed with real implementation, clear systems and long-term scaling in mind.
+    </p>
 
-    <div class="mini-stat">
-      <span class="label">Bonus Included</span>
-      <span class="value">AI Toolkit Pack</span>
+    <div class="hero-highlight">
+
+      <div class="highlight-item">
+        Mentorship
+      </div>
+
+      <div class="highlight-item">
+        Automation
+      </div>
+
+      <div class="highlight-item">
+        Strategy
+      </div>
+
+      <div class="highlight-item">
+        Systems
+      </div>
+
     </div>
 
   </div>
@@ -407,7 +413,7 @@
   </h2>
 
   <p class="section-sub">
-    Flexible premium programs designed to help entrepreneurs scale with clarity, systems and modern growth strategies.
+    Each service has its own dedicated page with pricing, bonuses, enrollment timing, payment options and full details.
   </p>
 
   <div class="services">
@@ -426,8 +432,14 @@
         High-level mentorship program focused on scaling systems, positioning and business growth strategy.
       </p>
 
+      <ul class="service-features">
+        <li>Weekly mentorship sessions</li>
+        <li>Growth roadmap</li>
+        <li>Private implementation resources</li>
+      </ul>
+
       <div class="service-price">
-        $299
+        Starting at $299
       </div>
 
       <a href="service.html" class="card-btn">
@@ -450,8 +462,14 @@
         Learn modern AI workflows, automation frameworks and systems to increase productivity and revenue.
       </p>
 
+      <ul class="service-features">
+        <li>AI workflow systems</li>
+        <li>Automation templates</li>
+        <li>Productivity frameworks</li>
+      </ul>
+
       <div class="service-price">
-        $199
+        Starting at $199
       </div>
 
       <a href="service.html" class="card-btn">
@@ -474,58 +492,19 @@
         Personalized strategy sessions and direct scaling consultation for advanced entrepreneurs.
       </p>
 
+      <ul class="service-features">
+        <li>Private consulting</li>
+        <li>Direct scaling guidance</li>
+        <li>Custom business strategy</li>
+      </ul>
+
       <div class="service-price">
-        $599
+        Starting at $599
       </div>
 
       <a href="service.html" class="card-btn">
         View Service
       </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section class="container">
-
-  <div class="grid-2">
-
-    <div class="info-box">
-
-      <h3>
-        Enrollment Closing Soon
-      </h3>
-
-      <p>
-        Current pricing and bonuses expire when the timer ends.
-      </p>
-
-      <div class="countdown" id="countdown">
-        04:12:56
-      </div>
-
-    </div>
-
-    <div class="info-box">
-
-      <h3>
-        Included Bonuses
-      </h3>
-
-      <p>
-        Every enrollment currently includes:
-      </p>
-
-      <ul style="margin-top:18px;padding-left:20px;color:#c4d0db;">
-
-        <li>AI Prompt Library</li>
-        <li>Growth Templates</li>
-        <li>Private Resources</li>
-        <li>Scaling Framework PDFs</li>
-
-      </ul>
 
     </div>
 
@@ -588,11 +567,11 @@
     </h2>
 
     <p>
-      Choose your preferred service, reserve your spot and receive payment instructions directly through email.
+      Explore the available services and choose the system that fits your growth goals.
     </p>
 
     <a href="#services" class="btn btn-primary">
-      Get Started
+      Explore Services
     </a>
 
   </div>
@@ -608,38 +587,6 @@
   </div>
 
 </footer>
-
-<script>
-
-  // SIMPLE COUNTDOWN
-
-  const countdown = document.getElementById("countdown");
-
-  const target = new Date();
-  target.setHours(target.getHours() + 96);
-
-  function updateCountdown(){
-
-    const now = new Date();
-
-    const diff = target - now;
-
-    const h = Math.floor(diff / 1000 / 60 / 60);
-    const m = Math.floor(diff / 1000 / 60) % 60;
-    const s = Math.floor(diff / 1000) % 60;
-
-    countdown.innerHTML =
-      String(h).padStart(2,"0") + ":" +
-      String(m).padStart(2,"0") + ":" +
-      String(s).padStart(2,"0");
-
-  }
-
-  setInterval(updateCountdown,1000);
-
-  updateCountdown();
-
-</script>
 
 </body>
 </html>
