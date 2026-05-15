@@ -4,12 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Growth Mentorship — SCALE</title>
-
-  <meta
-    name="description"
-    content="Premium growth mentorship program for entrepreneurs who want clarity, systems and scalable business growth."
-  />
+  <title>Service — SCALE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,16 +19,11 @@
       box-sizing:border-box;
     }
 
-    html{
-      scroll-behavior:smooth;
-    }
-
     body{
       font-family:'Inter',sans-serif;
       background:#0b0f14;
       color:#fff;
-      line-height:1.7;
-      overflow-x:hidden;
+      line-height:1.6;
     }
 
     a{
@@ -65,30 +55,28 @@
     .logo{
       font-size:1.4rem;
       font-weight:800;
-      letter-spacing:-1px;
-    }
-
-    .nav-links{
-      display:flex;
-      gap:26px;
-      color:#cfd7df;
-      font-size:.95rem;
     }
 
     .hero{
-      padding:90px 0 70px;
+      padding:90px 0;
       display:grid;
       grid-template-columns:1.1fr .9fr;
-      gap:60px;
-      align-items:center;
+      gap:50px;
+      align-items:start;
     }
 
-    .eyebrow{
+    .hero img{
+      width:100%;
+      border-radius:28px;
+      margin-bottom:30px;
+    }
+
+    .tag{
       display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
       background:#13202d;
       color:#7dd3fc;
+      padding:8px 14px;
+      border-radius:999px;
       font-size:.85rem;
       margin-bottom:24px;
     }
@@ -96,166 +84,59 @@
     h1{
       font-size:4rem;
       line-height:1.05;
+      margin-bottom:20px;
       letter-spacing:-2px;
-      margin-bottom:22px;
     }
 
-    .hero p{
-      color:#b7c2ce;
+    .description{
+      color:#b8c5d1;
       font-size:1.05rem;
-      margin-bottom:30px;
-    }
-
-    .hero-image{
-      background:#111821;
-      border-radius:30px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.06);
-      box-shadow:0 30px 80px rgba(0,0,0,.45);
-    }
-
-    .hero-image img{
-      width:100%;
-      display:block;
-    }
-
-    .hero-stats{
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-top:24px;
-    }
-
-    .stat{
-      background:#111821;
-      border:1px solid rgba(255,255,255,.06);
-      padding:14px 18px;
-      border-radius:16px;
-      min-width:160px;
-    }
-
-    .stat small{
-      display:block;
-      color:#93a4b4;
-      margin-bottom:4px;
-    }
-
-    .stat strong{
-      font-size:1.1rem;
-    }
-
-    section{
-      padding:90px 0;
-    }
-
-    .section-title{
-      font-size:2.3rem;
-      margin-bottom:16px;
-      letter-spacing:-1px;
-    }
-
-    .section-sub{
-      color:#9fb0c0;
-      margin-bottom:40px;
-      max-width:760px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:28px;
+      margin-bottom:34px;
     }
 
     .card{
       background:#111821;
       border:1px solid rgba(255,255,255,.06);
       border-radius:26px;
-      padding:30px;
+      padding:28px;
+      margin-bottom:24px;
     }
 
     .card h3{
-      margin-bottom:18px;
-      font-size:1.4rem;
-    }
-
-    ul{
-      padding-left:20px;
-      color:#c8d4df;
-    }
-
-    li{
-      margin-bottom:12px;
-    }
-
-    .bonus{
-      background:linear-gradient(180deg,#15202b,#101821);
-      border:1px solid rgba(125,211,252,.18);
-    }
-
-    .countdown{
-      font-size:3rem;
-      font-weight:800;
-      margin-top:16px;
-    }
-
-    .pricing-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:26px;
-      margin-top:40px;
-    }
-
-    .price-card{
-      background:#111821;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:28px;
-      padding:34px;
-      position:relative;
-    }
-
-    .popular{
-      border-color:#7dd3fc;
-      transform:scale(1.02);
-    }
-
-    .popular-badge{
-      position:absolute;
-      top:18px;
-      right:18px;
-      background:#7dd3fc;
-      color:#000;
-      font-size:.8rem;
-      font-weight:700;
-      padding:6px 10px;
-      border-radius:999px;
-    }
-
-    .price-title{
-      font-size:1.6rem;
-      margin-bottom:10px;
+      margin-bottom:20px;
+      font-size:1.3rem;
     }
 
     .price{
       font-size:3rem;
       font-weight:800;
-      margin-bottom:20px;
+      margin-bottom:8px;
     }
 
     .muted{
-      color:#9fb0c0;
+      color:#9cb0c3;
+    }
+
+    .stat{
+      display:flex;
+      justify-content:space-between;
+      padding:16px 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .stat:last-child{
+      border:none;
     }
 
     .btn{
-      display:inline-block;
       width:100%;
-      text-align:center;
       padding:16px;
-      border-radius:16px;
-      font-weight:700;
-      margin-top:28px;
       border:none;
+      border-radius:14px;
+      font-weight:700;
       cursor:pointer;
       font-size:1rem;
+      margin-top:14px;
     }
 
     .btn-primary{
@@ -264,95 +145,85 @@
     }
 
     .btn-secondary{
-      background:#1a2430;
+      background:#1a2532;
       color:#fff;
       border:1px solid rgba(255,255,255,.08);
     }
 
     .payment-box{
-      margin-top:80px;
-      background:linear-gradient(180deg,#121923,#0f151d);
-      border-radius:34px;
+      display:none;
+      margin-top:24px;
+      background:#0e141c;
       border:1px solid rgba(255,255,255,.06);
-      padding:50px;
+      border-radius:20px;
+      padding:22px;
     }
 
-    .payment-options{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-      margin-top:40px;
+    .payment-box h4{
+      margin-bottom:16px;
     }
 
-    .option{
-      background:#111821;
+    .payment-option{
+      background:#141d27;
       border:1px solid rgba(255,255,255,.06);
-      border-radius:24px;
-      padding:26px;
+      padding:18px;
+      border-radius:16px;
+      margin-bottom:16px;
     }
 
-    .option h3{
-      margin-bottom:14px;
-    }
-
-    .option p{
-      color:#aab7c4;
-      margin-bottom:20px;
-    }
-
-    input,
-    select{
+    input{
       width:100%;
       padding:14px;
-      border-radius:14px;
+      border-radius:12px;
       border:1px solid rgba(255,255,255,.08);
-      background:#0d131a;
+      background:#0f1620;
       color:#fff;
-      margin-bottom:16px;
-      font-size:1rem;
+      margin-top:12px;
+      margin-bottom:12px;
+    }
+
+    .bonus-list,
+    .feature-list{
+      padding-left:20px;
+      color:#d0dae4;
+    }
+
+    .bonus-list li,
+    .feature-list li{
+      margin-bottom:12px;
+    }
+
+    .countdown{
+      font-size:2.4rem;
+      font-weight:800;
+      margin-top:12px;
     }
 
     .reviews{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
       gap:24px;
+      margin-top:24px;
     }
 
     .review{
       background:#111821;
-      border-radius:24px;
-      padding:26px;
+      border-radius:22px;
+      padding:24px;
       border:1px solid rgba(255,255,255,.06);
     }
 
     .review p{
-      color:#c7d3de;
-      margin-bottom:18px;
-    }
-
-    .faq{
-      display:grid;
-      gap:20px;
-      margin-top:40px;
-    }
-
-    .faq-item{
-      background:#111821;
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:20px;
-      padding:24px;
-    }
-
-    .faq-item h4{
-      margin-bottom:10px;
+      color:#c6d2dd;
+      margin-bottom:16px;
     }
 
     footer{
-      padding:50px 0;
-      text-align:center;
-      color:#8fa1b2;
+      padding:40px 0;
       border-top:1px solid rgba(255,255,255,.06);
-      margin-top:90px;
+      color:#93a4b4;
+      text-align:center;
+      margin-top:80px;
     }
 
     @media(max-width:900px){
@@ -361,20 +232,8 @@
         grid-template-columns:1fr;
       }
 
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .payment-options{
-        grid-template-columns:1fr;
-      }
-
       h1{
         font-size:3rem;
-      }
-
-      .payment-box{
-        padding:30px;
       }
 
     }
@@ -385,411 +244,148 @@
 <body>
 
 <header>
-
   <div class="container nav">
 
-    <div class="logo">
+    <a href="index.html" class="logo">
       SCALE
-    </div>
-
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#faq">FAQ</a>
-    </div>
+    </a>
 
   </div>
-
 </header>
 
-<section class="hero container">
+<section class="container hero">
 
   <div>
 
-    <div class="eyebrow">
-      Premium Mentorship Program
+    <img id="serviceImage" src="" alt="Service">
+
+    <div class="tag" id="serviceTag">
+      Featured
     </div>
 
-    <h1>
-      Growth Mentorship
+    <h1 id="serviceName">
+      Service Name
     </h1>
 
-    <p>
-      A structured premium mentorship experience for entrepreneurs who want scalable systems, strategic clarity and long-term business growth.
+    <p class="description" id="serviceDescription">
+      Loading...
     </p>
-
-    <div class="hero-stats">
-
-      <div class="stat">
-        <small>Seats Remaining</small>
-        <strong>12 Spots</strong>
-      </div>
-
-      <div class="stat">
-        <small>Session Starts</small>
-        <strong>May 28</strong>
-      </div>
-
-      <div class="stat">
-        <small>Support Access</small>
-        <strong>Private</strong>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="hero-image">
-
-    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1400&auto=format&fit=crop" alt="Growth Mentorship">
-
-  </div>
-
-</section>
-
-<section class="container">
-
-  <h2 class="section-title">
-    What You'll Get
-  </h2>
-
-  <p class="section-sub">
-    Everything inside this program is focused on implementation, growth systems and scalable execution.
-  </p>
-
-  <div class="grid">
 
     <div class="card">
 
       <h3>
-        Inside The Program
+        What You Get
       </h3>
 
-      <ul>
-        <li>Weekly live mentorship sessions</li>
-        <li>Business growth systems</li>
-        <li>AI workflow integration</li>
-        <li>Scaling frameworks</li>
-        <li>Strategic positioning guidance</li>
-        <li>Private implementation resources</li>
+      <ul class="feature-list" id="featureList">
       </ul>
 
     </div>
 
-    <div class="card bonus">
+    <div class="card">
 
       <h3>
         Included Bonuses
       </h3>
 
-      <ul>
-        <li>AI Prompt Vault</li>
-        <li>Growth Templates Pack</li>
-        <li>Private Resource Library</li>
-        <li>Automation Framework PDFs</li>
+      <ul class="bonus-list" id="bonusList">
       </ul>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section class="container">
-
-  <div class="grid">
-
-    <div class="card">
-
-      <h3>
-        Enrollment Closing Soon
-      </h3>
-
-      <p class="muted">
-        Bonuses and pricing may change after the timer ends.
-      </p>
-
-      <div class="countdown" id="countdown">
-        00:00:00
-      </div>
 
     </div>
 
     <div class="card">
 
       <h3>
-        Limited Enrollment
+        Client Reviews
       </h3>
 
-      <p class="muted">
-        To maintain quality and direct support, this program accepts limited participants each session.
-      </p>
-
-      <div class="countdown">
-        12
+      <div class="reviews" id="reviewsContainer">
       </div>
-
-      <p class="muted">
-        Spots Remaining
-      </p>
 
     </div>
 
   </div>
 
-</section>
+  <div>
 
-<section id="pricing" class="container">
+    <div class="card">
 
-  <h2 class="section-title">
-    Pricing Options
-  </h2>
-
-  <p class="section-sub">
-    Choose the payment structure that fits you best.
-  </p>
-
-  <div class="pricing-grid">
-
-    <div class="price-card">
-
-      <div class="price-title">
-        Full Payment
+      <div class="price" id="servicePrice">
+        $0
       </div>
 
-      <div class="price">
-        $299
+      <div class="muted">
+        Full payment or installment options available
       </div>
 
-      <p class="muted">
-        One-time payment with complete access.
-      </p>
+      <div class="stat">
+        <span>Remaining Spots</span>
+        <strong id="remainingSpots">
+          --
+        </strong>
+      </div>
 
-      <ul style="margin-top:20px;">
-        <li>Full access immediately</li>
-        <li>Bonus resources included</li>
-        <li>Priority onboarding</li>
-      </ul>
+      <div class="stat">
+        <span>Next Session</span>
+        <strong id="sessionDate">
+          --
+        </strong>
+      </div>
 
-      <button class="btn btn-secondary">
-        Choose Full Payment
+      <div class="stat">
+        <span>Enrollment Ends In</span>
+        <strong id="countdown">
+          --
+        </strong>
+      </div>
+
+      <button class="btn btn-primary" id="buyBtn">
+        Reserve Your Spot
       </button>
 
-    </div>
+      <div class="payment-box" id="paymentBox">
 
-    <div class="price-card popular">
+        <h4>
+          Choose Payment Option
+        </h4>
 
-      <div class="popular-badge">
-        MOST POPULAR
-      </div>
+        <div class="payment-option">
 
-      <div class="price-title">
-        Installments
-      </div>
+          <strong>
+            Full Payment
+          </strong>
 
-      <div class="price">
-        3 × $110
-      </div>
+          <input
+            type="email"
+            id="fullPaymentEmail"
+            placeholder="Your email"
+          >
 
-      <p class="muted">
-        Flexible installment-based access.
-      </p>
+          <button class="btn btn-primary" id="fullPaymentBtn">
+            Request Full Payment
+          </button>
 
-      <ul style="margin-top:20px;">
-        <li>Split into 3 payments</li>
-        <li>Lower upfront cost</li>
-        <li>Secure your spot early</li>
-      </ul>
+        </div>
 
-      <button class="btn btn-primary">
-        Choose Installments
-      </button>
+        <div class="payment-option">
 
-    </div>
+          <strong>
+            Installments
+          </strong>
 
-  </div>
+          <input
+            type="email"
+            id="installmentEmail"
+            placeholder="Your email"
+          >
 
-</section>
+          <button class="btn btn-secondary" id="installmentBtn">
+            Request Installment Plan
+          </button>
 
-<section class="container">
-
-  <div class="payment-box">
-
-    <h2 class="section-title">
-      Reserve Your Spot
-    </h2>
-
-    <p class="section-sub">
-      Submit your preferred payment method and account type. Payment instructions will be sent directly to your email before the session begins.
-    </p>
-
-    <div class="payment-options">
-
-      <div class="option">
-
-        <h3>
-          Full Payment
-        </h3>
-
-        <p>
-          Request complete payment instructions.
-        </p>
-
-        <input type="email" placeholder="Your Email">
-
-        <select>
-          <option>Choose Payment Method</option>
-          <option>Card Payment</option>
-          <option>PayPal</option>
-        </select>
-
-        <select>
-          <option>Choose Account Type</option>
-          <option>Business Account</option>
-          <option>Personal Account</option>
-        </select>
-
-        <button class="btn btn-primary">
-          Request Payment
-        </button>
+        </div>
 
       </div>
-
-      <div class="option">
-
-        <h3>
-          Installment Plan
-        </h3>
-
-        <p>
-          Request installment payment setup.
-        </p>
-
-        <input type="email" placeholder="Your Email">
-
-        <select>
-          <option>Select Installment Plan</option>
-          <option>3 × $110</option>
-        </select>
-
-        <select>
-          <option>Choose Payment Method</option>
-          <option>Card Payment</option>
-          <option>PayPal</option>
-        </select>
-
-        <select>
-          <option>Choose Account Type</option>
-          <option>Business Account</option>
-          <option>Personal Account</option>
-        </select>
-
-        <button class="btn btn-primary">
-          Start Installment Request
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="reviews" class="container">
-
-  <h2 class="section-title">
-    Client Reviews
-  </h2>
-
-  <p class="section-sub">
-    Real experiences from entrepreneurs and founders.
-  </p>
-
-  <div class="reviews">
-
-    <div class="review">
-
-      <p>
-        “The structure and clarity inside this program completely changed how I scale my business.”
-      </p>
-
-      <strong>
-        — Sarah M.
-      </strong>
-
-    </div>
-
-    <div class="review">
-
-      <p>
-        “Everything was practical and implementation-focused. Huge value.”
-      </p>
-
-      <strong>
-        — Daniel K.
-      </strong>
-
-    </div>
-
-    <div class="review">
-
-      <p>
-        “The mentorship and systems helped me stop wasting time and scale properly.”
-      </p>
-
-      <strong>
-        — Ahmed R.
-      </strong>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="faq" class="container">
-
-  <h2 class="section-title">
-    Frequently Asked Questions
-  </h2>
-
-  <div class="faq">
-
-    <div class="faq-item">
-
-      <h4>
-        When does the session start?
-      </h4>
-
-      <p class="muted">
-        The next mentorship cycle begins on May 28.
-      </p>
-
-    </div>
-
-    <div class="faq-item">
-
-      <h4>
-        Can I pay in installments?
-      </h4>
-
-      <p class="muted">
-        Yes. Flexible installment plans are available depending on the service.
-      </p>
-
-    </div>
-
-    <div class="faq-item">
-
-      <h4>
-        How do payments work?
-      </h4>
-
-      <p class="muted">
-        After submitting your request, payment instructions are sent directly to your email before enrollment begins.
-      </p>
 
     </div>
 
@@ -807,34 +403,271 @@
 
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-  const countdown = document.getElementById("countdown");
+const SUPABASE_URL = "https://kkrybualwvnderbumjdd.supabase.co";
 
-  const target = new Date();
+const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
 
-  target.setHours(target.getHours() + 96);
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
-  function updateCountdown(){
+const params = new URLSearchParams(window.location.search);
 
-    const now = new Date();
+const slug = params.get("slug");
 
-    const diff = target - now;
+let currentService = null;
 
-    const h = Math.floor(diff / 1000 / 60 / 60);
-    const m = Math.floor(diff / 1000 / 60) % 60;
-    const s = Math.floor(diff / 1000) % 60;
+async function loadService(){
 
-    countdown.innerHTML =
-      String(h).padStart(2,"0") + ":" +
-      String(m).padStart(2,"0") + ":" +
-      String(s).padStart(2,"0");
+  const { data, error } = await supabaseClient
+    .from("services")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if(error || !data){
+
+    document.body.innerHTML = `
+      <div style="padding:80px;text-align:center;">
+        Service not found
+      </div>
+    `;
+
+    return;
+  }
+
+  currentService = data;
+
+  document.title = data.name + " — SCALE";
+
+  document.getElementById("serviceName").innerText =
+    data.name;
+
+  document.getElementById("serviceDescription").innerText =
+    data.full_description || "";
+
+  document.getElementById("servicePrice").innerText =
+    "$" + data.price;
+
+  document.getElementById("serviceTag").innerText =
+    data.tag || "Featured";
+
+  document.getElementById("remainingSpots").innerText =
+    data.remaining_spots || "Unlimited";
+
+  document.getElementById("sessionDate").innerText =
+    data.session_date || "TBA";
+
+  document.getElementById("serviceImage").src =
+    data.image_url || "";
+
+  if(data.features){
+
+    const featureList =
+      document.getElementById("featureList");
+
+    data.features.forEach(feature => {
+
+      const li = document.createElement("li");
+
+      li.innerText = feature;
+
+      featureList.appendChild(li);
+
+    });
 
   }
 
-  setInterval(updateCountdown,1000);
+  startCountdown(data.enrollment_deadline);
 
-  updateCountdown();
+  loadBonuses(data.id);
+
+  loadReviews(data.id);
+
+}
+
+async function loadBonuses(serviceId){
+
+  const { data, error } = await supabaseClient
+    .from("bonuses")
+    .select("*")
+    .eq("service_id", serviceId);
+
+  if(error) return;
+
+  const container =
+    document.getElementById("bonusList");
+
+  container.innerHTML = "";
+
+  data.forEach(bonus => {
+
+    const li = document.createElement("li");
+
+    li.innerText = bonus.title;
+
+    container.appendChild(li);
+
+  });
+
+}
+
+async function loadReviews(serviceId){
+
+  const { data, error } = await supabaseClient
+    .from("reviews")
+    .select("*")
+    .eq("service_id", serviceId)
+    .eq("approved", true);
+
+  if(error) return;
+
+  const container =
+    document.getElementById("reviewsContainer");
+
+  container.innerHTML = "";
+
+  data.forEach(review => {
+
+    const div = document.createElement("div");
+
+    div.className = "review";
+
+    div.innerHTML = `
+
+      <p>
+        "${review.review_text}"
+      </p>
+
+      <strong>
+        — ${review.client_name}
+      </strong>
+
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+function startCountdown(deadline){
+
+  if(!deadline) return;
+
+  const countdown =
+    document.getElementById("countdown");
+
+  function update(){
+
+    const now = new Date();
+
+    const target = new Date(deadline);
+
+    const diff = target - now;
+
+    if(diff <= 0){
+
+      countdown.innerText = "Expired";
+
+      return;
+    }
+
+    const days =
+      Math.floor(diff / 1000 / 60 / 60 / 24);
+
+    const hours =
+      Math.floor(diff / 1000 / 60 / 60) % 24;
+
+    const minutes =
+      Math.floor(diff / 1000 / 60) % 60;
+
+    const seconds =
+      Math.floor(diff / 1000) % 60;
+
+    countdown.innerText =
+      days + "d " +
+      hours + "h " +
+      minutes + "m " +
+      seconds + "s";
+
+  }
+
+  update();
+
+  setInterval(update,1000);
+
+}
+
+document.getElementById("buyBtn").onclick = () => {
+
+  const box = document.getElementById("paymentBox");
+
+  box.style.display =
+    box.style.display === "block"
+      ? "none"
+      : "block";
+
+};
+
+async function createRequest(type,email){
+
+  if(!email){
+
+    alert("Please enter your email");
+
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("payment_requests")
+    .insert([{
+
+      service_id: currentService.id,
+      email,
+      payment_type: type
+
+    }]);
+
+  if(error){
+
+    alert("Something went wrong");
+
+    console.error(error);
+
+    return;
+  }
+
+  alert(
+    "Your request was received. Payment instructions will be sent manually."
+  );
+
+}
+
+document.getElementById("fullPaymentBtn").onclick = () => {
+
+  const email =
+    document.getElementById("fullPaymentEmail").value;
+
+  createRequest("full_payment",email);
+
+};
+
+document.getElementById("installmentBtn").onclick = () => {
+
+  const email =
+    document.getElementById("installmentEmail").value;
+
+  createRequest("installment",email);
+
+};
+
+loadService();
 
 </script>
 
