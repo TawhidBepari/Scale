@@ -235,16 +235,6 @@
       margin-bottom:20px;
     }
 
-    .service-features{
-      margin-bottom:24px;
-      padding-left:18px;
-      color:#c7d3de;
-    }
-
-    .service-features li{
-      margin-bottom:10px;
-    }
-
     .card-btn{
       display:inline-block;
       width:100%;
@@ -416,98 +406,7 @@
     Each service has its own dedicated page with pricing, bonuses, enrollment timing, payment options and full details.
   </p>
 
-  <div class="services">
-
-    <div class="service-card">
-
-      <div class="service-tag">
-        Most Popular
-      </div>
-
-      <h3>
-        Growth Mentorship
-      </h3>
-
-      <p>
-        High-level mentorship program focused on scaling systems, positioning and business growth strategy.
-      </p>
-
-      <ul class="service-features">
-        <li>Weekly mentorship sessions</li>
-        <li>Growth roadmap</li>
-        <li>Private implementation resources</li>
-      </ul>
-
-      <div class="service-price">
-        Starting at $299
-      </div>
-
-      <a href="service.html" class="card-btn">
-        View Service
-      </a>
-
-    </div>
-
-    <div class="service-card">
-
-      <div class="service-tag">
-        Automation
-      </div>
-
-      <h3>
-        AI Business Systems
-      </h3>
-
-      <p>
-        Learn modern AI workflows, automation frameworks and systems to increase productivity and revenue.
-      </p>
-
-      <ul class="service-features">
-        <li>AI workflow systems</li>
-        <li>Automation templates</li>
-        <li>Productivity frameworks</li>
-      </ul>
-
-      <div class="service-price">
-        Starting at $199
-      </div>
-
-      <a href="service.html" class="card-btn">
-        View Service
-      </a>
-
-    </div>
-
-    <div class="service-card">
-
-      <div class="service-tag">
-        Premium
-      </div>
-
-      <h3>
-        Private Strategy Access
-      </h3>
-
-      <p>
-        Personalized strategy sessions and direct scaling consultation for advanced entrepreneurs.
-      </p>
-
-      <ul class="service-features">
-        <li>Private consulting</li>
-        <li>Direct scaling guidance</li>
-        <li>Custom business strategy</li>
-      </ul>
-
-      <div class="service-price">
-        Starting at $599
-      </div>
-
-      <a href="service.html" class="card-btn">
-        View Service
-      </a>
-
-    </div>
-
+  <div class="services" id="servicesContainer">
   </div>
 
 </section>
@@ -522,38 +421,7 @@
     Real feedback from entrepreneurs and business owners.
   </p>
 
-  <div class="reviews">
-
-    <div class="review">
-      <p>
-        “One of the clearest growth systems I’ve ever followed. Everything became easier to scale.”
-      </p>
-
-      <strong>
-        — Sarah M.
-      </strong>
-    </div>
-
-    <div class="review">
-      <p>
-        “The automation systems alone saved me hours every week.”
-      </p>
-
-      <strong>
-        — Daniel K.
-      </strong>
-    </div>
-
-    <div class="review">
-      <p>
-        “The structure, clarity and mentorship completely changed how I run my business.”
-      </p>
-
-      <strong>
-        — Ahmed R.
-      </strong>
-    </div>
-
+  <div class="reviews" id="reviewsContainer">
   </div>
 
 </section>
@@ -587,17 +455,118 @@
   </div>
 
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
+
+<script>
 
 const SUPABASE_URL = "https://kkrybualwvnderbumjdd.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcnlidWFsd3ZuZGVyYnVtamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjIxOTQsImV4cCI6MjA5MzgzODE5NH0.N0TBaamkdOg-BAVQ28DbTXhUO2nHTxwnGK8maQS0QQA";
+
+const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
 
+async function loadServices(){
+
+  const { data, error } = await supabaseClient
+    .from("services")
+    .select("*")
+    .eq("active", true)
+    .order("created_at", { ascending:false });
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  const container = document.getElementById("servicesContainer");
+
+  container.innerHTML = "";
+
+  data.forEach(service => {
+
+    const card = document.createElement("div");
+
+    card.className = "service-card";
+
+    card.innerHTML = `
+
+      <div class="service-tag">
+        ${service.tag || "Featured"}
+      </div>
+
+      <h3>
+        ${service.name}
+      </h3>
+
+      <p>
+        ${service.short_description || ""}
+      </p>
+
+      <div class="service-price">
+        Starting at $${service.price}
+      </div>
+
+      <a href="service.html?slug=${service.slug}" class="card-btn">
+        View Service
+      </a>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+async function loadReviews(){
+
+  const { data, error } = await supabaseClient
+    .from("reviews")
+    .select("*")
+    .eq("approved", true)
+    .order("created_at", { ascending:false });
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  const container = document.getElementById("reviewsContainer");
+
+  container.innerHTML = "";
+
+  data.forEach(review => {
+
+    const card = document.createElement("div");
+
+    card.className = "review";
+
+    card.innerHTML = `
+
+      <p>
+        "${review.review_text}"
+      </p>
+
+      <strong>
+        — ${review.client_name}
+      </strong>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+loadServices();
+loadReviews();
+
 </script>
+
 </body>
 </html>
