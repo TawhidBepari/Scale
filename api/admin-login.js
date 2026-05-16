@@ -1,11 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
+const { createClient } = require("@supabase/supabase-js");
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -14,6 +9,16 @@ export default async function handler(req, res) {
   }
 
   try {
+
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      {
+        auth: {
+          persistSession: false
+        }
+      }
+    );
 
     const { email, password } = req.body;
 
@@ -27,24 +32,23 @@ export default async function handler(req, res) {
       .from("admins")
       .select("*")
       .eq("email", email)
-      .limit(1);
+      .maybeSingle();
 
     if (error) {
+      console.error(error);
+
       return res.status(500).json({
         error: error.message
       });
     }
 
-    if (!data || data.length === 0) {
+    if (!data) {
       return res.status(401).json({
         error: "Invalid credentials"
       });
     }
 
-    const admin = data[0];
-
-    // Plain text password check for now
-    if (admin.password !== password) {
+    if (data.password !== password) {
       return res.status(401).json({
         error: "Invalid credentials"
       });
@@ -53,12 +57,14 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       admin: {
-        id: admin.id,
-        email: admin.email
+        id: data.id,
+        email: data.email
       }
     });
 
   } catch (err) {
+
+    console.error(err);
 
     return res.status(500).json({
       error: "Server error"
@@ -66,4 +72,4 @@ export default async function handler(req, res) {
 
   }
 
-}
+};
