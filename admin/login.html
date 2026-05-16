@@ -1,1 +1,159 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Scale Admin Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0b0f14;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.card{
+  width:100%;
+  max-width:420px;
+  background:#111821;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:28px;
+  padding:36px;
+}
+
+h1{
+  font-size:2rem;
+  margin-bottom:10px;
+}
+
+p{
+  color:#9fb0c0;
+  margin-bottom:28px;
+}
+
+input{
+  width:100%;
+  background:#0f151d;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:16px;
+  color:#fff;
+  margin-bottom:18px;
+  font-size:1rem;
+}
+
+button{
+  width:100%;
+  border:none;
+  background:#fff;
+  color:#000;
+  font-weight:700;
+  padding:16px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:1rem;
+}
+
+#error{
+  margin-top:18px;
+  color:#ff7d7d;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>
+    Admin Login
+  </h1>
+
+  <p>
+    Access the SCALE dashboard.
+  </p>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Email"
+  >
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Password"
+  >
+
+  <button id="loginBtn">
+    Login
+  </button>
+
+  <div id="error"></div>
+
+</div>
+
+<script>
+
+document.getElementById("loginBtn").onclick = async () => {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const errorBox = document.getElementById("error");
+
+  errorBox.innerHTML = "";
+
+  const res = await fetch("/api/admin-login", {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      email,
+      password
+    })
+  });
+
+  const data = await res.json();
+
+  if(!res.ok){
+
+    errorBox.innerHTML = data.error || "Login failed";
+
+    return;
+  }
+
+  localStorage.setItem(
+    "scale_admin",
+    JSON.stringify(data.admin)
+  );
+
+  window.location.href = "/admin/dashboard.html";
+
+};
+
+</script>
+
+</body>
+</html>
