@@ -1,1 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
+<title>Scale Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#0b0f14;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  padding:40px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+h1{
+  font-size:2.2rem;
+}
+
+button{
+  border:none;
+  background:#fff;
+  color:#000;
+  font-weight:700;
+  padding:14px 20px;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:#111821;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:24px;
+  padding:28px;
+}
+
+.card h3{
+  margin-bottom:14px;
+}
+
+.card p{
+  color:#9fb0c0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <h1>
+    SCALE Dashboard
+  </h1>
+
+  <button id="logoutBtn">
+    Logout
+  </button>
+
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <h3>Services</h3>
+    <p>Create and edit services.</p>
+  </div>
+
+  <div class="card">
+    <h3>Reviews</h3>
+    <p>Manage client reviews.</p>
+  </div>
+
+  <div class="card">
+    <h3>Bonuses</h3>
+    <p>Control bonuses and offers.</p>
+  </div>
+
+  <div class="card">
+    <h3>Payments</h3>
+    <p>Manage customer payment requests.</p>
+  </div>
+
+</div>
+
+<script>
+
+const admin = localStorage.getItem("scale_admin");
+
+if(!admin){
+  window.location.href = "/admin/login.html";
+}
+
+document.getElementById("logoutBtn").onclick = () => {
+
+  localStorage.removeItem("scale_admin");
+
+  window.location.href = "/admin/login.html";
+
+};
+
+</script>
+
+</body>
+</html>
