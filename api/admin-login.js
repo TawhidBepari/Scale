@@ -1,11 +1,11 @@
-const { createClient } = require("@supabase/supabase-js");
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        error: "Missing fields"
+        error: "Missing credentials"
       });
     }
 
@@ -27,10 +27,24 @@ module.exports = async (req, res) => {
       .from("admins")
       .select("*")
       .eq("email", email)
-      .eq("password", password)
-      .single();
+      .limit(1);
 
-    if (error || !data) {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      });
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(401).json({
+        error: "Invalid credentials"
+      });
+    }
+
+    const admin = data[0];
+
+    // Plain text password check for now
+    if (admin.password !== password) {
       return res.status(401).json({
         error: "Invalid credentials"
       });
@@ -39,17 +53,17 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       success: true,
       admin: {
-        email: data.email,
-        role: data.role
+        id: admin.id,
+        email: admin.email
       }
     });
 
   } catch (err) {
 
     return res.status(500).json({
-      error: err.message
+      error: "Server error"
     });
 
   }
 
-};
+}
