@@ -69,6 +69,7 @@
       width:100%;
       border-radius:28px;
       margin-bottom:30px;
+      background:#111821;
     }
 
     .tag{
@@ -92,6 +93,7 @@
       color:#b8c5d1;
       font-size:1.05rem;
       margin-bottom:34px;
+      white-space:pre-line;
     }
 
     .card{
@@ -120,6 +122,7 @@
     .stat{
       display:flex;
       justify-content:space-between;
+      gap:20px;
       padding:16px 0;
       border-bottom:1px solid rgba(255,255,255,.06);
     }
@@ -180,6 +183,7 @@
       color:#fff;
       margin-top:12px;
       margin-bottom:12px;
+      font-size:1rem;
     }
 
     .bonus-list,
@@ -190,7 +194,7 @@
 
     .bonus-list li,
     .feature-list li{
-      margin-bottom:12px;
+      margin-bottom:14px;
     }
 
     .countdown{
@@ -274,17 +278,6 @@
     <div class="card">
 
       <h3>
-        What You Get
-      </h3>
-
-      <ul class="feature-list" id="featureList">
-      </ul>
-
-    </div>
-
-    <div class="card">
-
-      <h3>
         Included Bonuses
       </h3>
 
@@ -314,12 +307,13 @@
         $0
       </div>
 
-      <div class="muted">
-        Full payment or installment options available
+      <div class="muted" id="paymentText">
+        Payment options available
       </div>
 
       <div class="stat">
         <span>Remaining Spots</span>
+
         <strong id="remainingSpots">
           --
         </strong>
@@ -327,6 +321,7 @@
 
       <div class="stat">
         <span>Next Session</span>
+
         <strong id="sessionDate">
           --
         </strong>
@@ -334,6 +329,7 @@
 
       <div class="stat">
         <span>Enrollment Ends In</span>
+
         <strong id="countdown">
           --
         </strong>
@@ -349,7 +345,10 @@
           Choose Payment Option
         </h4>
 
-        <div class="payment-option">
+        <div
+          class="payment-option"
+          id="fullPaymentOption"
+        >
 
           <strong>
             Full Payment
@@ -361,15 +360,21 @@
             placeholder="Your email"
           >
 
-          <button class="btn btn-primary" id="fullPaymentBtn">
+          <button
+            class="btn btn-primary"
+            id="fullPaymentBtn"
+          >
             Request Full Payment
           </button>
 
         </div>
 
-        <div class="payment-option">
+        <div
+          class="payment-option"
+          id="installmentOption"
+        >
 
-          <strong>
+          <strong id="installmentTitle">
             Installments
           </strong>
 
@@ -379,7 +384,10 @@
             placeholder="Your email"
           >
 
-          <button class="btn btn-secondary" id="installmentBtn">
+          <button
+            class="btn btn-secondary"
+            id="installmentBtn"
+          >
             Request Installment Plan
           </button>
 
@@ -407,16 +415,19 @@
 
 <script>
 
-const SUPABASE_URL = "https://kkrybualwvnderbumjdd.supabase.co";
+const SUPABASE_URL =
+  "https://kkrybualwvnderbumjdd.supabase.co";
 
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
+const SUPABASE_ANON_KEY =
+  "YOUR_REAL_ANON_KEY_HERE";
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
 
-const params = new URLSearchParams(window.location.search);
+const params =
+  new URLSearchParams(window.location.search);
 
 const slug = params.get("slug");
 
@@ -428,12 +439,21 @@ async function loadService(){
     .from("services")
     .select("*")
     .eq("slug", slug)
+    .eq("active", true)
     .single();
 
   if(error || !data){
 
+    console.error(error);
+
     document.body.innerHTML = `
-      <div style="padding:80px;text-align:center;">
+      <div style="
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:2rem;
+      ">
         Service not found
       </div>
     `;
@@ -443,47 +463,65 @@ async function loadService(){
 
   currentService = data;
 
-  document.title = data.name + " — SCALE";
+  document.title =
+    data.title + " — SCALE";
 
   document.getElementById("serviceName").innerText =
-    data.name;
+    data.title || "";
 
   document.getElementById("serviceDescription").innerText =
     data.full_description || "";
 
   document.getElementById("servicePrice").innerText =
-    "$" + data.price;
-
-  document.getElementById("serviceTag").innerText =
-    data.tag || "Featured";
+    "$" + data.price_full;
 
   document.getElementById("remainingSpots").innerText =
-    data.remaining_spots || "Unlimited";
+    data.spots_remaining || "Unlimited";
 
   document.getElementById("sessionDate").innerText =
-    data.session_date || "TBA";
+    data.session_start || "TBA";
 
   document.getElementById("serviceImage").src =
-    data.image_url || "";
+    data.cover_image || "";
 
-  if(data.features){
+  if(data.installment_enabled){
 
-    const featureList =
-      document.getElementById("featureList");
+    document.getElementById("installmentTitle").innerText =
+      data.installment_count
+        ? data.installment_count + " Installments"
+        : "Installments";
 
-    data.features.forEach(feature => {
+  }else{
 
-      const li = document.createElement("li");
-
-      li.innerText = feature;
-
-      featureList.appendChild(li);
-
-    });
+    document.getElementById("installmentOption")
+      .style.display = "none";
 
   }
 
-  startCountdown(data.enrollment_deadline);
+  if(
+    data.personal_payment_enabled &&
+    data.installment_enabled
+  ){
+
+    document.getElementById("paymentText").innerText =
+      "Full payment and installments available";
+
+  }else if(data.personal_payment_enabled){
+
+    document.getElementById("paymentText").innerText =
+      "Full payment available";
+
+  }else if(data.installment_enabled){
+
+    document.getElementById("paymentText").innerText =
+      "Installments available";
+
+    document.getElementById("fullPaymentOption")
+      .style.display = "none";
+
+  }
+
+  startCountdown(data.countdown_end);
 
   loadBonuses(data.id);
 
@@ -496,20 +534,42 @@ async function loadBonuses(serviceId){
   const { data, error } = await supabaseClient
     .from("bonuses")
     .select("*")
-    .eq("service_id", serviceId);
+    .eq("service_id", serviceId)
+    .order("created_at", {
+      ascending:true
+    });
 
-  if(error) return;
+  if(error){
+
+    console.error(error);
+
+    return;
+  }
 
   const container =
     document.getElementById("bonusList");
 
   container.innerHTML = "";
 
+  if(!data.length){
+
+    container.innerHTML = `
+      <li>
+        No bonuses available.
+      </li>
+    `;
+
+    return;
+  }
+
   data.forEach(bonus => {
 
     const li = document.createElement("li");
 
-    li.innerText = bonus.title;
+    li.innerHTML = `
+      <strong>${bonus.title}</strong><br>
+      ${bonus.description || ""}
+    `;
 
     container.appendChild(li);
 
@@ -523,14 +583,35 @@ async function loadReviews(serviceId){
     .from("reviews")
     .select("*")
     .eq("service_id", serviceId)
-    .eq("approved", true);
+    .eq("approved", true)
+    .order("created_at", {
+      ascending:false
+    });
 
-  if(error) return;
+  if(error){
+
+    console.error(error);
+
+    return;
+  }
 
   const container =
     document.getElementById("reviewsContainer");
 
   container.innerHTML = "";
+
+  if(!data.length){
+
+    container.innerHTML = `
+      <div class="review">
+        <p>
+          No reviews yet.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
 
   data.forEach(review => {
 
@@ -558,7 +639,13 @@ async function loadReviews(serviceId){
 
 function startCountdown(deadline){
 
-  if(!deadline) return;
+  if(!deadline){
+
+    document.getElementById("countdown")
+      .innerText = "No deadline";
+
+    return;
+  }
 
   const countdown =
     document.getElementById("countdown");
@@ -606,7 +693,8 @@ function startCountdown(deadline){
 
 document.getElementById("buyBtn").onclick = () => {
 
-  const box = document.getElementById("paymentBox");
+  const box =
+    document.getElementById("paymentBox");
 
   box.style.display =
     box.style.display === "block"
@@ -629,22 +717,22 @@ async function createRequest(type,email){
     .insert([{
 
       service_id: currentService.id,
-      email,
+      email: email,
       payment_type: type
 
     }]);
 
   if(error){
 
-    alert("Something went wrong");
-
     console.error(error);
+
+    alert("Something went wrong");
 
     return;
   }
 
   alert(
-    "Your request was received. Payment instructions will be sent manually."
+    "Your request was received successfully."
   );
 
 }
@@ -652,18 +740,28 @@ async function createRequest(type,email){
 document.getElementById("fullPaymentBtn").onclick = () => {
 
   const email =
-    document.getElementById("fullPaymentEmail").value;
+    document.getElementById(
+      "fullPaymentEmail"
+    ).value;
 
-  createRequest("full_payment",email);
+  createRequest(
+    "full_payment",
+    email
+  );
 
 };
 
 document.getElementById("installmentBtn").onclick = () => {
 
   const email =
-    document.getElementById("installmentEmail").value;
+    document.getElementById(
+      "installmentEmail"
+    ).value;
 
-  createRequest("installment",email);
+  createRequest(
+    "installment",
+    email
+  );
 
 };
 
