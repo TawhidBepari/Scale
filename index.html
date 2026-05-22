@@ -462,7 +462,7 @@
 
 const SUPABASE_URL = "https://kkrybualwvnderbumjdd.supabase.co";
 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcnlidWFsd3ZuZGVyYnVtamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjIxOTQsImV4cCI6MjA5MzgzODE5NH0.N0TBaamkdOg-BAVQ28DbTXhUO2nHTxwnGK8maQS0QQA";
+const SUPABASE_ANON_KEY = "YOUR_REAL_ANON_KEY_HERE";
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
@@ -475,16 +475,34 @@ async function loadServices(){
     .from("services")
     .select("*")
     .eq("active", true)
-    .order("created_at", { ascending:false });
+    .order("created_at", {
+      ascending:false
+    });
 
   if(error){
+
     console.error(error);
+
     return;
   }
 
-  const container = document.getElementById("servicesContainer");
+  const container =
+    document.getElementById("servicesContainer");
 
   container.innerHTML = "";
+
+  if(!data.length){
+
+    container.innerHTML = `
+      <div style="
+        color:#9fb0c0;
+      ">
+        No services available yet.
+      </div>
+    `;
+
+    return;
+  }
 
   data.forEach(service => {
 
@@ -495,11 +513,11 @@ async function loadServices(){
     card.innerHTML = `
 
       <div class="service-tag">
-        ${service.tag || "Featured"}
+        Featured
       </div>
 
       <h3>
-        ${service.name}
+        ${service.title || ""}
       </h3>
 
       <p>
@@ -507,10 +525,13 @@ async function loadServices(){
       </p>
 
       <div class="service-price">
-        Starting at $${service.price}
+        Starting at $${service.price_full || 0}
       </div>
 
-      <a href="service.html?slug=${service.slug}" class="card-btn">
+      <a
+        href="service.html?slug=${service.slug}"
+        class="card-btn"
+      >
         View Service
       </a>
 
@@ -527,17 +548,34 @@ async function loadReviews(){
   const { data, error } = await supabaseClient
     .from("reviews")
     .select("*")
-    .eq("approved", true)
-    .order("created_at", { ascending:false });
+    .order("created_at", {
+      ascending:false
+    });
 
   if(error){
+
     console.error(error);
+
     return;
   }
 
-  const container = document.getElementById("reviewsContainer");
+  const container =
+    document.getElementById("reviewsContainer");
 
   container.innerHTML = "";
+
+  if(!data.length){
+
+    container.innerHTML = `
+      <div class="review">
+        <p>
+          No reviews yet.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
 
   data.forEach(review => {
 
@@ -548,11 +586,11 @@ async function loadReviews(){
     card.innerHTML = `
 
       <p>
-        "${review.review_text}"
+        "${review.review_text || ""}"
       </p>
 
       <strong>
-        — ${review.client_name}
+        — ${review.reviewer_name || "Anonymous"}
       </strong>
 
     `;
