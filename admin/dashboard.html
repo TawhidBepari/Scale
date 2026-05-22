@@ -398,16 +398,23 @@ textarea{
 const admin = localStorage.getItem("scale_admin");
 
 if(!admin){
+
   window.location.href = "/admin/login.html";
+
 }
 
-const SUPABASE_URL = "https://kkrybualwvnderbumjdd.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcnlidWFsd3ZuZGVyYnVtamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjIxOTQsImV4cCI6MjA5MzgzODE5NH0.N0TBaamkdOg-BAVQ28DbTXhUO2nHTxwnGK8maQS0QQA";
+const SUPABASE_URL =
+  "https://kkrybualwvnderbumjdd.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrcnlidWFsd3ZuZGVyYnVtamRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNjIxOTQsImV4cCI6MjA5MzgzODE5NH0.N0TBaamkdOg-BAVQ28DbTXhUO2nHTxwnGK8maQS0QQA";
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
+
+let editingServiceId = null;
 
 // LOGOUT
 
@@ -421,9 +428,11 @@ document.getElementById("logoutBtn").onclick = () => {
 
 // SECTION SWITCHING
 
-const menuButtons = document.querySelectorAll(".menu button");
+const menuButtons =
+  document.querySelectorAll(".menu button");
 
-const sections = document.querySelectorAll(".section");
+const sections =
+  document.querySelectorAll(".section");
 
 menuButtons.forEach(button => {
 
@@ -432,10 +441,14 @@ menuButtons.forEach(button => {
     const target = button.dataset.section;
 
     sections.forEach(section => {
+
       section.classList.remove("active");
+
     });
 
-    document.getElementById(target).classList.add("active");
+    document
+      .getElementById(target)
+      .classList.add("active");
 
   };
 
@@ -445,82 +458,124 @@ menuButtons.forEach(button => {
 
 async function loadServices(){
 
-  const servicesList = document.getElementById("servicesList");
+  const servicesList =
+    document.getElementById("servicesList");
 
   const { data, error } = await supabaseClient
     .from("services")
     .select("*")
-    .order("created_at",{ ascending:false });
+    .order("created_at", {
+      ascending:false
+    });
 
   if(error){
 
+    console.error(error);
+
     servicesList.innerHTML = `
+
       <div class="empty">
         Failed to load services
       </div>
+
     `;
 
     return;
+
   }
 
   if(!data.length){
 
     servicesList.innerHTML = `
+
       <div class="empty">
         No services yet
       </div>
+
     `;
 
     return;
+
   }
 
   servicesList.innerHTML = "";
 
   data.forEach(service => {
 
-    servicesList.innerHTML += `
+    const div = document.createElement("div");
 
-      <div class="service-item">
+    div.className = "service-item";
 
-        <div>
+    div.innerHTML = `
 
-          <h3>
-            ${service.title}
-          </h3>
+      <div>
 
-          <p>
-            ${service.short_description || ""}
-          </p>
+        <h3>
+          ${service.title || ""}
+        </h3>
 
-          <div class="badge">
-            ${service.spots_remaining || 0} spots left
-          </div>
+        <p>
+          ${service.short_description || ""}
+        </p>
 
+        <div class="badge">
+          ${service.active ? "Active" : "Inactive"}
         </div>
 
-        <button class="action-btn">
+      </div>
+
+      <div style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+      ">
+
+        <button
+          class="action-btn"
+          onclick="editService('${service.id}')"
+        >
           Edit
+        </button>
+
+        <button
+          class="action-btn"
+          onclick="toggleService('${service.id}', ${service.active})"
+        >
+          ${service.active ? "Disable" : "Enable"}
+        </button>
+
+        <button
+          class="action-btn"
+          style="
+            background:#ff5f5f;
+            color:white;
+          "
+          onclick="deleteService('${service.id}')"
+        >
+          Delete
         </button>
 
       </div>
 
     `;
 
+    servicesList.appendChild(div);
+
   });
 
 }
 
-loadServices();
-
-// SAVE SERVICE
+// SAVE / UPDATE SERVICE
 
 document.getElementById("saveServiceBtn").onclick = async () => {
 
   const payload = {
 
-    title: document.getElementById("title").value,
+    title:
+      document.getElementById("title").value,
 
-    slug: document.getElementById("slug").value,
+    slug:
+      document.getElementById("slug").value,
 
     short_description:
       document.getElementById("short_description").value,
@@ -528,42 +583,222 @@ document.getElementById("saveServiceBtn").onclick = async () => {
     full_description:
       document.getElementById("full_description").value,
 
-    price:
+    price_full:
       document.getElementById("price").value,
 
     spots_remaining:
-      parseInt(document.getElementById("spots").value || 0),
+      parseInt(
+        document.getElementById("spots").value || 0
+      ),
 
     countdown_end:
-      document.getElementById("countdown").value,
+      document.getElementById("countdown").value || null,
 
-    image_url:
+    cover_image:
       document.getElementById("image").value,
 
-    installments_enabled:
+    installment_enabled:
       document.getElementById("installments").value === "true",
 
-    bonus_enabled:
-      document.getElementById("bonus_enabled").value === "true"
+    installment_count:
+      document.getElementById("installments").value === "true"
+        ? 3
+        : null,
+
+    personal_payment_enabled:true,
+
+    business_payment_enabled:true,
+
+    active:true
 
   };
 
-  const { error } = await supabaseClient
+  let response;
+
+  if(editingServiceId){
+
+    response = await supabaseClient
+      .from("services")
+      .update(payload)
+      .eq("id", editingServiceId);
+
+  }else{
+
+    response = await supabaseClient
+      .from("services")
+      .insert([payload]);
+
+  }
+
+  if(response.error){
+
+    console.error(response.error);
+
+    alert(response.error.message);
+
+    return;
+
+  }
+
+  alert(
+    editingServiceId
+      ? "Service updated"
+      : "Service created"
+  );
+
+  resetForm();
+
+  loadServices();
+
+};
+
+// EDIT SERVICE
+
+async function editService(id){
+
+  const { data, error } = await supabaseClient
     .from("services")
-    .insert([payload]);
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if(error){
+
+    console.error(error);
+
+    return;
+
+  }
+
+  editingServiceId = id;
+
+  document.getElementById("title").value =
+    data.title || "";
+
+  document.getElementById("slug").value =
+    data.slug || "";
+
+  document.getElementById("short_description").value =
+    data.short_description || "";
+
+  document.getElementById("full_description").value =
+    data.full_description || "";
+
+  document.getElementById("price").value =
+    data.price_full || "";
+
+  document.getElementById("spots").value =
+    data.spots_remaining || "";
+
+  document.getElementById("countdown").value =
+    data.countdown_end
+      ? data.countdown_end.slice(0,16)
+      : "";
+
+  document.getElementById("image").value =
+    data.cover_image || "";
+
+  document.getElementById("installments").value =
+    data.installment_enabled
+      ? "true"
+      : "false";
+
+  document.getElementById("saveServiceBtn").innerText =
+    "Update Service";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+// DELETE SERVICE
+
+async function deleteService(id){
+
+  const confirmed = confirm(
+    "Delete this service?"
+  );
+
+  if(!confirmed) return;
+
+  const { error } = await supabaseClient
+    .from("services")
+    .delete()
+    .eq("id", id);
+
+  if(error){
+
+    console.error(error);
 
     alert(error.message);
 
     return;
+
   }
 
-  alert("Service created");
+  alert("Service deleted");
 
-  location.reload();
+  loadServices();
 
-};
+}
+
+// TOGGLE ACTIVE
+
+async function toggleService(id,currentState){
+
+  const { error } = await supabaseClient
+    .from("services")
+    .update({
+      active: !currentState
+    })
+    .eq("id", id);
+
+  if(error){
+
+    console.error(error);
+
+    alert(error.message);
+
+    return;
+
+  }
+
+  loadServices();
+
+}
+
+// RESET FORM
+
+function resetForm(){
+
+  editingServiceId = null;
+
+  document.getElementById("title").value = "";
+
+  document.getElementById("slug").value = "";
+
+  document.getElementById("short_description").value = "";
+
+  document.getElementById("full_description").value = "";
+
+  document.getElementById("price").value = "";
+
+  document.getElementById("spots").value = "";
+
+  document.getElementById("countdown").value = "";
+
+  document.getElementById("image").value = "";
+
+  document.getElementById("installments").value = "true";
+
+  document.getElementById("saveServiceBtn").innerText =
+    "Save Service";
+
+}
+
+loadServices();
 
 </script>
 
