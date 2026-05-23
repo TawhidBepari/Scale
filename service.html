@@ -70,6 +70,8 @@
       border-radius:28px;
       margin-bottom:30px;
       background:#111821;
+      min-height:300px;
+      object-fit:cover;
     }
 
     .tag{
@@ -186,21 +188,13 @@
       font-size:1rem;
     }
 
-    .bonus-list,
-    .feature-list{
+    .bonus-list{
       padding-left:20px;
       color:#d0dae4;
     }
 
-    .bonus-list li,
-    .feature-list li{
+    .bonus-list li{
       margin-bottom:14px;
-    }
-
-    .countdown{
-      font-size:2.4rem;
-      font-weight:800;
-      margin-top:12px;
     }
 
     .reviews{
@@ -220,6 +214,11 @@
     .review p{
       color:#c6d2dd;
       margin-bottom:16px;
+    }
+
+    .review strong{
+      display:block;
+      margin-top:12px;
     }
 
     footer{
@@ -261,18 +260,22 @@
 
   <div>
 
-    <img id="serviceImage" src="" alt="Service">
+    <img
+      id="serviceImage"
+      src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop"
+      alt="Service"
+    >
 
     <div class="tag" id="serviceTag">
       Featured
     </div>
 
     <h1 id="serviceName">
-      Service Name
+      Loading...
     </h1>
 
     <p class="description" id="serviceDescription">
-      Loading...
+      Loading service...
     </p>
 
     <div class="card">
@@ -435,28 +438,25 @@ let currentService = null;
 
 async function loadService(){
 
+  if(!slug){
+
+    showNotFound();
+
+    return;
+  }
+
   const { data, error } = await supabaseClient
     .from("services")
     .select("*")
     .eq("slug", slug)
     .eq("active", true)
-    .single();
+    .maybeSingle();
 
   if(error || !data){
 
     console.error(error);
 
-    document.body.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:2rem;
-      ">
-        Service not found
-      </div>
-    `;
+    showNotFound();
 
     return;
   }
@@ -464,16 +464,16 @@ async function loadService(){
   currentService = data;
 
   document.title =
-    data.title + " — SCALE";
+    (data.title || "Service") + " — SCALE";
 
   document.getElementById("serviceName").innerText =
-    data.title || "";
+    data.title || "Untitled Service";
 
   document.getElementById("serviceDescription").innerText =
-    data.full_description || "";
+    data.full_description || "No description available.";
 
   document.getElementById("servicePrice").innerText =
-    "$" + data.price_full;
+    "$" + (data.price_full || "0");
 
   document.getElementById("remainingSpots").innerText =
     data.spots_remaining || "Unlimited";
@@ -482,7 +482,11 @@ async function loadService(){
     data.session_start || "TBA";
 
   document.getElementById("serviceImage").src =
-    data.cover_image || "";
+    data.cover_image ||
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop";
+
+  document.getElementById("serviceTag").innerText =
+    data.tag || "Featured";
 
   if(data.installment_enabled){
 
@@ -519,6 +523,11 @@ async function loadService(){
     document.getElementById("fullPaymentOption")
       .style.display = "none";
 
+  }else{
+
+    document.getElementById("paymentText").innerText =
+      "Contact for payment options";
+
   }
 
   startCountdown(data.countdown_end);
@@ -526,6 +535,27 @@ async function loadService(){
   loadBonuses(data.id);
 
   loadReviews(data.id);
+
+}
+
+function showNotFound(){
+
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#0b0f14;
+      color:white;
+      font-family:Inter,sans-serif;
+      font-size:2rem;
+      text-align:center;
+      padding:20px;
+    ">
+      Service not found
+    </div>
+  `;
 
 }
 
@@ -551,7 +581,7 @@ async function loadBonuses(serviceId){
 
   container.innerHTML = "";
 
-  if(!data.length){
+  if(!data || !data.length){
 
     container.innerHTML = `
       <li>
@@ -567,7 +597,7 @@ async function loadBonuses(serviceId){
     const li = document.createElement("li");
 
     li.innerHTML = `
-      <strong>${bonus.title}</strong><br>
+      <strong>${bonus.title || ""}</strong><br>
       ${bonus.description || ""}
     `;
 
@@ -583,7 +613,6 @@ async function loadReviews(serviceId){
     .from("reviews")
     .select("*")
     .eq("service_id", serviceId)
-    .eq("approved", true)
     .order("created_at", {
       ascending:false
     });
@@ -600,7 +629,7 @@ async function loadReviews(serviceId){
 
   container.innerHTML = "";
 
-  if(!data.length){
+  if(!data || !data.length){
 
     container.innerHTML = `
       <div class="review">
@@ -622,11 +651,11 @@ async function loadReviews(serviceId){
     div.innerHTML = `
 
       <p>
-        "${review.review_text}"
+        "${review.review_text || ""}"
       </p>
 
       <strong>
-        — ${review.client_name}
+        — ${review.reviewer_name || "Anonymous"}
       </strong>
 
     `;
@@ -639,16 +668,15 @@ async function loadReviews(serviceId){
 
 function startCountdown(deadline){
 
+  const countdown =
+    document.getElementById("countdown");
+
   if(!deadline){
 
-    document.getElementById("countdown")
-      .innerText = "No deadline";
+    countdown.innerText = "No deadline";
 
     return;
   }
-
-  const countdown =
-    document.getElementById("countdown");
 
   function update(){
 
@@ -717,8 +745,10 @@ async function createRequest(type,email){
     .insert([{
 
       service_id: currentService.id,
-      email: email,
-      payment_type: type
+      customer_email: email,
+      payment_type: type,
+      account_type: "personal",
+      status: "pending"
 
     }]);
 
@@ -726,7 +756,7 @@ async function createRequest(type,email){
 
     console.error(error);
 
-    alert("Something went wrong");
+    alert(error.message);
 
     return;
   }
@@ -734,6 +764,14 @@ async function createRequest(type,email){
   alert(
     "Your request was received successfully."
   );
+
+  document.getElementById(
+    "fullPaymentEmail"
+  ).value = "";
+
+  document.getElementById(
+    "installmentEmail"
+  ).value = "";
 
 }
 
