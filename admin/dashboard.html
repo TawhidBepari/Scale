@@ -59,11 +59,6 @@ body{
   cursor:pointer;
   text-align:left;
   font-size:.95rem;
-  transition:.2s;
-}
-
-.menu button:hover{
-  background:#1c2734;
 }
 
 .main{
@@ -161,6 +156,21 @@ textarea{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:20px;
+}
+
+.service-left{
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+}
+
+.service-thumb{
+  width:100px;
+  height:100px;
+  border-radius:16px;
+  object-fit:cover;
+  background:#0f151d;
 }
 
 .service-item h3{
@@ -195,6 +205,15 @@ textarea{
   color:#91a2b2;
 }
 
+.image-preview{
+  width:100%;
+  height:240px;
+  object-fit:cover;
+  border-radius:18px;
+  background:#0f151d;
+  border:1px solid rgba(255,255,255,.06);
+}
+
 @media(max-width:900px){
 
   .dashboard{
@@ -208,6 +227,11 @@ textarea{
 
   .form-grid{
     grid-template-columns:1fr;
+  }
+
+  .service-item{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
 }
@@ -261,8 +285,6 @@ textarea{
 
     </div>
 
-    <!-- SERVICES -->
-
     <section class="section active" id="servicesSection">
 
       <div class="card">
@@ -277,9 +299,13 @@ textarea{
 
           <input type="text" id="slug" placeholder="Slug">
 
+          <input type="text" id="tag" placeholder="Tag (Featured, Premium etc.)">
+
           <input type="text" id="price" placeholder="Price">
 
           <input type="number" id="spots" placeholder="Seats Remaining">
+
+          <input type="text" id="session_start" placeholder="Session Start (May 28)">
 
           <input type="datetime-local" id="countdown">
 
@@ -290,10 +316,13 @@ textarea{
             <option value="false">Installments Disabled</option>
           </select>
 
-          <select id="bonus_enabled">
-            <option value="true">Bonuses Enabled</option>
-            <option value="false">Bonuses Disabled</option>
-          </select>
+          <input type="number" id="installment_count" placeholder="Number of Installments">
+
+          <img
+            id="imagePreview"
+            class="image-preview full"
+            src=""
+          >
 
           <textarea
             id="short_description"
@@ -333,8 +362,6 @@ textarea{
 
     </section>
 
-    <!-- REVIEWS -->
-
     <section class="section" id="reviewsSection">
 
       <div class="card">
@@ -351,8 +378,6 @@ textarea{
 
     </section>
 
-    <!-- BONUSES -->
-
     <section class="section" id="bonusesSection">
 
       <div class="card">
@@ -368,8 +393,6 @@ textarea{
       </div>
 
     </section>
-
-    <!-- PAYMENTS -->
 
     <section class="section" id="paymentsSection">
 
@@ -416,8 +439,6 @@ const supabaseClient = supabase.createClient(
 
 let editingServiceId = null;
 
-// LOGOUT
-
 document.getElementById("logoutBtn").onclick = () => {
 
   localStorage.removeItem("scale_admin");
@@ -425,8 +446,6 @@ document.getElementById("logoutBtn").onclick = () => {
   window.location.href = "/admin/login.html";
 
 };
-
-// SECTION SWITCHING
 
 const menuButtons =
   document.querySelectorAll(".menu button");
@@ -441,9 +460,7 @@ menuButtons.forEach(button => {
     const target = button.dataset.section;
 
     sections.forEach(section => {
-
       section.classList.remove("active");
-
     });
 
     document
@@ -454,7 +471,26 @@ menuButtons.forEach(button => {
 
 });
 
-// LOAD SERVICES
+document.getElementById("title").addEventListener("input", e => {
+
+  if(editingServiceId) return;
+
+  const slug = e.target.value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"");
+
+  document.getElementById("slug").value = slug;
+
+});
+
+document.getElementById("image").addEventListener("input", e => {
+
+  document.getElementById("imagePreview").src =
+    e.target.value;
+
+});
 
 async function loadServices(){
 
@@ -473,11 +509,9 @@ async function loadServices(){
     console.error(error);
 
     servicesList.innerHTML = `
-
       <div class="empty">
         Failed to load services
       </div>
-
     `;
 
     return;
@@ -487,11 +521,9 @@ async function loadServices(){
   if(!data.length){
 
     servicesList.innerHTML = `
-
       <div class="empty">
         No services yet
       </div>
-
     `;
 
     return;
@@ -508,18 +540,27 @@ async function loadServices(){
 
     div.innerHTML = `
 
-      <div>
+      <div class="service-left">
 
-        <h3>
-          ${service.title || ""}
-        </h3>
+        <img
+          class="service-thumb"
+          src="${service.cover_image || ""}"
+        >
 
-        <p>
-          ${service.short_description || ""}
-        </p>
+        <div>
 
-        <div class="badge">
-          ${service.active ? "Active" : "Inactive"}
+          <h3>
+            ${service.title || ""}
+          </h3>
+
+          <p>
+            ${service.short_description || ""}
+          </p>
+
+          <div class="badge">
+            ${service.active ? "Active" : "Inactive"}
+          </div>
+
         </div>
 
       </div>
@@ -565,9 +606,10 @@ async function loadServices(){
 
 }
 
-// SAVE / UPDATE SERVICE
-
 document.getElementById("saveServiceBtn").onclick = async () => {
+
+  const installmentEnabled =
+    document.getElementById("installments").value === "true";
 
   const payload = {
 
@@ -576,6 +618,9 @@ document.getElementById("saveServiceBtn").onclick = async () => {
 
     slug:
       document.getElementById("slug").value,
+
+    tag:
+      document.getElementById("tag").value || "Featured",
 
     short_description:
       document.getElementById("short_description").value,
@@ -597,12 +642,17 @@ document.getElementById("saveServiceBtn").onclick = async () => {
     cover_image:
       document.getElementById("image").value,
 
+    session_start:
+      document.getElementById("session_start").value,
+
     installment_enabled:
-      document.getElementById("installments").value === "true",
+      installmentEnabled,
 
     installment_count:
-      document.getElementById("installments").value === "true"
-        ? 3
+      installmentEnabled
+        ? parseInt(
+            document.getElementById("installment_count").value || 3
+          )
         : null,
 
     personal_payment_enabled:true,
@@ -652,8 +702,6 @@ document.getElementById("saveServiceBtn").onclick = async () => {
 
 };
 
-// EDIT SERVICE
-
 async function editService(id){
 
   const { data, error } = await supabaseClient
@@ -678,6 +726,9 @@ async function editService(id){
   document.getElementById("slug").value =
     data.slug || "";
 
+  document.getElementById("tag").value =
+    data.tag || "";
+
   document.getElementById("short_description").value =
     data.short_description || "";
 
@@ -690,6 +741,9 @@ async function editService(id){
   document.getElementById("spots").value =
     data.spots_remaining || "";
 
+  document.getElementById("session_start").value =
+    data.session_start || "";
+
   document.getElementById("countdown").value =
     data.countdown_end
       ? data.countdown_end.slice(0,16)
@@ -698,10 +752,16 @@ async function editService(id){
   document.getElementById("image").value =
     data.cover_image || "";
 
+  document.getElementById("imagePreview").src =
+    data.cover_image || "";
+
   document.getElementById("installments").value =
     data.installment_enabled
       ? "true"
       : "false";
+
+  document.getElementById("installment_count").value =
+    data.installment_count || "";
 
   document.getElementById("saveServiceBtn").innerText =
     "Update Service";
@@ -712,8 +772,6 @@ async function editService(id){
   });
 
 }
-
-// DELETE SERVICE
 
 async function deleteService(id){
 
@@ -744,8 +802,6 @@ async function deleteService(id){
 
 }
 
-// TOGGLE ACTIVE
-
 async function toggleService(id,currentState){
 
   const { error } = await supabaseClient
@@ -769,8 +825,6 @@ async function toggleService(id,currentState){
 
 }
 
-// RESET FORM
-
 function resetForm(){
 
   editingServiceId = null;
@@ -778,6 +832,8 @@ function resetForm(){
   document.getElementById("title").value = "";
 
   document.getElementById("slug").value = "";
+
+  document.getElementById("tag").value = "";
 
   document.getElementById("short_description").value = "";
 
@@ -787,11 +843,17 @@ function resetForm(){
 
   document.getElementById("spots").value = "";
 
+  document.getElementById("session_start").value = "";
+
   document.getElementById("countdown").value = "";
 
   document.getElementById("image").value = "";
 
+  document.getElementById("imagePreview").src = "";
+
   document.getElementById("installments").value = "true";
+
+  document.getElementById("installment_count").value = "";
 
   document.getElementById("saveServiceBtn").innerText =
     "Save Service";
