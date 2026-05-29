@@ -516,7 +516,7 @@ async function loadService(){
     "$" + (data.price_full || "0");
 
   document.getElementById("remainingSpots").innerText =
-    data.spots_remaining || "Unlimited";
+    data.spots_remaining ?? "Unlimited";
 
   document.getElementById("sessionDate").innerText =
     data.session_start || "TBA";
