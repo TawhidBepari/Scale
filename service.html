@@ -188,7 +188,7 @@
       font-size:1rem;
     }
 
-    .bonus-list{
+.bonus-list{
   display:grid;
   gap:18px;
 }
@@ -201,6 +201,13 @@
   display:flex;
   gap:18px;
   align-items:flex-start;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.bonus-item:hover{
+  transform:translateY(-2px);
+  border-color:rgba(125,211,252,.35);
 }
 
 .bonus-image{
@@ -210,6 +217,11 @@
   object-fit:cover;
   background:#111821;
   flex-shrink:0;
+}
+
+.bonus-content{
+  flex:1;
+  min-width:0;
 }
 
 .bonus-content h4{
@@ -648,32 +660,40 @@ async function loadBonuses(serviceId){
 
     const div = document.createElement("div");
 
-    div.className = "bonus-item";
+div.className = "bonus-item";
 
-    div.innerHTML = `
+if(service?.slug){
+  div.onclick = () => {
+    window.location.href =
+      "service.html?slug=" + service.slug;
+  };
+}
 
-      <img
-        class="bonus-image"
-        src="${service?.cover_image || ""}"
-      >
+div.innerHTML = `
 
-      <div class="bonus-content">
+  <img
+    class="bonus-image"
+    src="${service?.cover_image || ""}"
+    alt="${service?.title || ""}"
+  >
 
-        <h4>
-          ${service?.title || bonus.title}
-        </h4>
+  <div class="bonus-content">
 
-        <div class="bonus-price">
-          Value: $${service?.price_full || "0"}
-        </div>
+    <h4>
+      ${service?.title || bonus.title}
+    </h4>
 
-        <div class="bonus-description">
-          ${bonus.description || ""}
-        </div>
+    <div class="bonus-price">
+      Value: $${service?.price_full || "0"}
+    </div>
 
-      </div>
+    <div class="bonus-description">
+      ${bonus.description || ""}
+    </div>
 
-    `;
+  </div>
+
+`;
 
     container.appendChild(div);
 
