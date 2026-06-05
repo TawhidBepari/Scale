@@ -837,25 +837,32 @@ async function createRequest(type,email){
     return;
   }
 
-  const { data: existingRequest } = await supabaseClient
-    .from("payment_requests")
-    .select("id")
-    .eq("service_id", currentService.id)
-    .eq("customer_email", email)
-    .eq("payment_type", type)
-    .eq("status", "pending")
-    .maybeSingle();
+console.log("service_id:", currentService.id);
+console.log("email:", email);
+console.log("type:", type);
 
+const {
+  data: existingRequest,
+  error: checkError
+} = await supabaseClient
+  .from("payment_requests")
+  .select("*")
+  .eq("service_id", currentService.id)
+  .eq("customer_email", email)
+  .eq("payment_type", type)
+  .eq("status", "pending");
+
+console.log("checkError:", checkError);
 console.log("existingRequest:", existingRequest);
-  
-  if(existingRequest){
 
-    alert(
-      "You already submitted this payment request."
-    );
+if(existingRequest && existingRequest.length > 0){
 
-    return;
-  }
+  alert(
+    "You already submitted this payment request."
+  );
+
+  return;
+}
 
   const { error } = await supabaseClient
     .from("payment_requests")
