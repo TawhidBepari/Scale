@@ -837,10 +837,6 @@ async function createRequest(type,email){
     return;
   }
 
-console.log("service_id:", currentService.id);
-console.log("email:", email);
-console.log("type:", type);
-
 const {
   data: existingRequest,
   error: checkError
@@ -851,9 +847,6 @@ const {
   .eq("customer_email", email)
   .eq("payment_type", type)
   .eq("status", "pending");
-
-console.log("checkError:", checkError);
-console.log("existingRequest:", existingRequest);
 
 if(existingRequest && existingRequest.length > 0){
 
