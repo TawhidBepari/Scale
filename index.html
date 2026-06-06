@@ -229,6 +229,15 @@
       margin-bottom:24px;
     }
 
+    .service-image{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:18px;
+  margin-bottom:18px;
+  display:block;
+}
+
     .service-price{
       font-size:2rem;
       font-weight:800;
@@ -512,30 +521,39 @@ async function loadServices(){
 
     card.innerHTML = `
 
-      <div class="service-tag">
-        Featured
-      </div>
+  <img
+    class="service-image"
+    src="${
+      service.cover_image ||
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop"
+    }"
+    alt="${service.title || ""}"
+  >
 
-      <h3>
-        ${service.title || ""}
-      </h3>
+  <div class="service-tag">
+    ${service.tag || "Featured"}
+  </div>
 
-      <p>
-        ${service.short_description || ""}
-      </p>
+  <h3>
+    ${service.title || ""}
+  </h3>
 
-      <div class="service-price">
-        Starting at $${service.price_full || 0}
-      </div>
+  <p>
+    ${service.short_description || ""}
+  </p>
 
-      <a
-        href="service.html?slug=${service.slug}"
-        class="card-btn"
-      >
-        View Service
-      </a>
+  <div class="service-price">
+    Starting at $${service.price_full || 0}
+  </div>
 
-    `;
+  <a
+    href="service.html?slug=${service.slug}"
+    class="card-btn"
+  >
+    View Service
+  </a>
+
+`;
 
     container.appendChild(card);
 
