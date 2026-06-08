@@ -176,6 +176,30 @@
       margin-bottom:16px;
     }
 
+    .payment-notice{
+  background:#13202d;
+  border:1px solid rgba(125,211,252,.25);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.payment-notice strong{
+  display:block;
+  color:#7dd3fc;
+  margin-bottom:10px;
+}
+
+.payment-notice p{
+  color:#d8e2ec;
+  font-size:.92rem;
+  margin-bottom:10px;
+}
+
+.payment-notice p:last-child{
+  margin-bottom:0;
+}
+    
     input{
       width:100%;
       padding:14px;
@@ -397,61 +421,87 @@
         Reserve Your Spot
       </button>
 
-      <div class="payment-box" id="paymentBox">
+<div class="payment-box" id="paymentBox">
 
-        <h4>
-          Choose Payment Option
-        </h4>
+  <h4>
+    Request Payment Details
+  </h4>
 
-        <div
-          class="payment-option"
-          id="fullPaymentOption"
-        >
+  <div class="payment-notice">
 
-          <strong>
-            Full Payment
-          </strong>
+    <strong>
+      Before you continue
+    </strong>
 
-          <input
-            type="email"
-            id="fullPaymentEmail"
-            placeholder="Your email"
-          >
+    <p>
+      Please provide your official billing information exactly as it appears on the card or bank account you intend to use.
+    </p>
 
-          <button
-            class="btn btn-primary"
-            id="fullPaymentBtn"
-          >
-            Request Full Payment
-          </button>
+    <p>
+      Taxes and processing fees are covered by us. The amount shown on your invoice will be the final amount you pay.
+    </p>
 
-        </div>
+    <p>
+      After review, your payment link and invoice will be sent manually to your email within 24 hours.
+    </p>
 
-        <div
-          class="payment-option"
-          id="installmentOption"
-        >
+  </div>
 
-          <strong id="installmentTitle">
-            Installments
-          </strong>
+  <input
+    type="text"
+    id="customerName"
+    placeholder="Full legal name"
+  >
 
-          <input
-            type="email"
-            id="installmentEmail"
-            placeholder="Your email"
-          >
+  <input
+    type="email"
+    id="customerEmail"
+    placeholder="Email address"
+  >
 
-          <button
-            class="btn btn-secondary"
-            id="installmentBtn"
-          >
-            Request Installment Plan
-          </button>
+  <input
+    type="text"
+    id="customerCountry"
+    placeholder="Country of residence"
+  >
 
-        </div>
+  <div
+    class="payment-option"
+    id="fullPaymentOption"
+  >
 
-      </div>
+    <strong>
+      Pay In Full
+    </strong>
+
+    <button
+      class="btn btn-primary"
+      id="fullPaymentBtn"
+    >
+      Request Full Payment Details
+    </button>
+
+  </div>
+
+  <div
+    class="payment-option"
+    id="installmentOption"
+  >
+
+    <strong id="installmentTitle">
+      Installments
+    </strong>
+
+    <button
+      class="btn btn-secondary"
+      id="installmentBtn"
+    >
+      Request Installment Details
+    </button>
+
+  </div>
+
+</div>
 
     </div>
 
@@ -828,11 +878,34 @@ document.getElementById("buyBtn").onclick = () => {
 
 };
 
-async function createRequest(type,email){
+async function createRequest(type){
+
+  const email =
+    document.getElementById("customerEmail").value.trim();
+
+  const fullName =
+    document.getElementById("customerName").value.trim();
+
+  const country =
+    document.getElementById("customerCountry").value.trim();
+
+  if(!fullName){
+
+    alert("Please enter your full name");
+
+    return;
+  }
 
   if(!email){
 
     alert("Please enter your email");
+
+    return;
+  }
+
+  if(!country){
+
+    alert("Please enter your country");
 
     return;
   }
@@ -859,15 +932,16 @@ if(existingRequest && existingRequest.length > 0){
 
   const { error } = await supabaseClient
     .from("payment_requests")
-    .insert([{
+   .insert([{
 
-      service_id: currentService.id,
-      customer_email: email,
-      payment_type: type,
-      account_type: "personal",
-      status: "pending"
+  service_id: currentService.id,
+  customer_email: email,
+  full_name: fullName,
+  country: country,
+  payment_type: type,
+  status: "pending"
 
-    }]);
+}]);
 
   if(error){
 
@@ -894,29 +968,13 @@ if(existingRequest && existingRequest.length > 0){
 
 document.getElementById("fullPaymentBtn").onclick = () => {
 
-  const email =
-    document.getElementById(
-      "fullPaymentEmail"
-    ).value;
-
-  createRequest(
-    "full_payment",
-    email
-  );
+  createRequest("full_payment");
 
 };
 
 document.getElementById("installmentBtn").onclick = () => {
 
-  const email =
-    document.getElementById(
-      "installmentEmail"
-    ).value;
-
-  createRequest(
-    "installment",
-    email
-  );
+  createRequest("installment");
 
 };
 
