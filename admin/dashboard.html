@@ -432,21 +432,21 @@ textarea{
 
 </section>
 
-    <section class="section" id="paymentsSection">
+   <section class="section" id="paymentsSection">
 
-      <div class="card">
+  <div class="card">
 
-        <h2>
-          Payment Requests
-        </h2>
+    <h2>
+      Payment Requests
+    </h2>
 
-        <p class="empty">
-          Customer payment requests will appear here.
-        </p>
+    <div id="paymentRequestsContainer">
+      Loading...
+    </div>
 
-      </div>
+  </div>
 
-    </section>
+</section>
 
   </main>
 
@@ -1129,6 +1129,118 @@ async function deleteBonus(id){
   loadBonuses();
 
 }
+
+async function loadPaymentRequests(){
+
+  const { data, error } = await supabaseClient
+    .from("payment_requests")
+    .select(`
+      *,
+      services (
+        title
+      )
+    `)
+    .order("created_at", {
+      ascending:false
+    });
+
+  const container =
+    document.getElementById(
+      "paymentRequestsContainer"
+    );
+
+  if(error){
+
+    console.error(error);
+
+    container.innerHTML =
+      "Failed to load requests.";
+
+    return;
+  }
+
+  if(!data || !data.length){
+
+    container.innerHTML =
+      "No payment requests yet.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(request => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.background =
+      "#0e141c";
+
+    card.style.padding =
+      "20px";
+
+    card.style.borderRadius =
+      "16px";
+
+    card.style.marginBottom =
+      "16px";
+
+    card.style.border =
+      "1px solid rgba(255,255,255,.06)";
+
+    card.innerHTML = `
+
+      <h3 style="margin-bottom:10px;">
+        ${request.full_name || "No Name"}
+      </h3>
+
+      <p>
+        <strong>Service:</strong>
+        ${request.services?.title || "-"}
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        ${request.customer_email}
+      </p>
+
+      <p>
+        <strong>Country:</strong>
+        ${request.country || "-"}
+      </p>
+
+      <p>
+        <strong>Payment:</strong>
+        ${
+          request.payment_type ===
+          "full_payment"
+            ? "Full Payment"
+            : "Installment"
+        }
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        ${request.status}
+      </p>
+
+      <p>
+        <strong>Requested:</strong>
+        ${new Date(
+          request.created_at
+        ).toLocaleString()}
+      </p>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+loadPaymentRequests();  
   
 loadServices();
 
