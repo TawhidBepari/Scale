@@ -214,6 +214,29 @@ textarea{
   border:1px solid rgba(255,255,255,.06);
 }
 
+  .request-btn{
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.contacted-btn{
+  background:#1d4ed8;
+  color:white;
+}
+
+.paid-btn{
+  background:#15803d;
+  color:white;
+}
+
+.declined-btn{
+  background:#991b1b;
+  color:white;
+}
+
 @media(max-width:900px){
 
   .dashboard{
@@ -1232,11 +1255,90 @@ async function loadPaymentRequests(){
         ).toLocaleString()}
       </p>
 
+      <div style="
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+  flex-wrap:wrap;
+">
+
+  <button
+    class="request-btn contacted-btn"
+    data-id="${request.id}"
+  >
+    Contacted
+  </button>
+
+  <button
+    class="request-btn paid-btn"
+    data-id="${request.id}"
+  >
+    Paid
+  </button>
+
+  <button
+    class="request-btn declined-btn"
+    data-id="${request.id}"
+  >
+    Declined
+  </button>
+
+</div>
+
     `;
 
     container.appendChild(card);
 
+card
+  .querySelector(".contacted-btn")
+  .onclick = () =>
+    updateRequestStatus(
+      request.id,
+      "contacted"
+    );
+
+card
+  .querySelector(".paid-btn")
+  .onclick = () =>
+    updateRequestStatus(
+      request.id,
+      "paid"
+    );
+
+card
+  .querySelector(".declined-btn")
+  .onclick = () =>
+    updateRequestStatus(
+      request.id,
+      "declined"
+    );
+    
   });
+
+}
+
+  async function updateRequestStatus(
+  requestId,
+  status
+){
+
+  const { error } = await supabaseClient
+    .from("payment_requests")
+    .update({
+      status
+    })
+    .eq("id", requestId);
+
+  if(error){
+
+    console.error(error);
+
+    alert("Failed to update status");
+
+    return;
+  }
+
+  loadPaymentRequests();
 
 }
 
