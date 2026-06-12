@@ -1329,14 +1329,14 @@ card
     })
     .eq("id", requestId);
 
-  if(error){
+ if(error){
 
-    console.error(error);
+  console.error("UPDATE ERROR:", error);
 
-    alert("Failed to update status");
+  alert(error.message);
 
-    return;
-  }
+  return;
+}
 
   loadPaymentRequests();
 
