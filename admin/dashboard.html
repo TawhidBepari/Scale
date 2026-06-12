@@ -1336,13 +1336,15 @@ console.log(
   status
 );
     
-  const { error } = await supabaseClient
-    .from("payment_requests")
-    .update({
-      status
-    })
-    .eq("id", requestId);
+ const result = await supabaseClient
+  .from("payment_requests")
+  .update({
+    status
+  })
+  .eq("id", requestId);
 
+console.log(result);
+    
  if(error){
 
   console.error("UPDATE ERROR:", error);
