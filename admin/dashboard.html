@@ -1330,6 +1330,12 @@ card
   status
 ){
 
+console.log(
+  "BUTTON CLICKED",
+  requestId,
+  status
+);
+    
   const { error } = await supabaseClient
     .from("payment_requests")
     .update({
