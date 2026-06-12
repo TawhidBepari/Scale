@@ -1325,34 +1325,46 @@ card
 
 }
 
-  async function updateRequestStatus(
+async function updateRequestStatus(
   requestId,
   status
 ){
 
-console.log(
-  "BUTTON CLICKED",
-  requestId,
-  status
-);
-    
- const result = await supabaseClient
-  .from("payment_requests")
-  .update({
+  console.log(
+    "BUTTON CLICKED",
+    requestId,
     status
-  })
-  .eq("id", requestId);
+  );
 
-console.log(result);
-    
- if(error){
+  const { data, error } = await supabaseClient
+    .from("payment_requests")
+    .update({
+      status
+    })
+    .eq("id", requestId)
+    .select();
 
-  console.error("UPDATE ERROR:", error);
+  console.log(
+    "updated rows:",
+    data
+  );
 
-  alert(error.message);
+  console.log(
+    "error:",
+    error
+  );
 
-  return;
-}
+  if(error){
+
+    console.error(
+      "UPDATE ERROR:",
+      error
+    );
+
+    alert(error.message);
+
+    return;
+  }
 
   loadPaymentRequests();
 
