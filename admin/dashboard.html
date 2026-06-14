@@ -1388,29 +1388,49 @@ request.status === "pending"
 
     container.appendChild(card);
 
-card
-  .querySelector(".contacted-btn")
-  .onclick = () =>
+const contactedBtn =
+  card.querySelector(".contacted-btn");
+
+if(contactedBtn){
+
+  contactedBtn.onclick = () =>
+
     updateRequestStatus(
       request.id,
       "contacted"
     );
 
-card
-  .querySelector(".paid-btn")
-  .onclick = () =>
+}
+
+
+const paidBtn =
+  card.querySelector(".paid-btn");
+
+if(paidBtn){
+
+  paidBtn.onclick = () =>
+
     updateRequestStatus(
       request.id,
       "paid"
     );
 
-card
-  .querySelector(".declined-btn")
-  .onclick = () =>
+}
+
+
+const declinedBtn =
+  card.querySelector(".declined-btn");
+
+if(declinedBtn){
+
+  declinedBtn.onclick = () =>
+
     updateRequestStatus(
       request.id,
       "declined"
     );
+
+}
     
   });
 
@@ -1426,23 +1446,6 @@ async function updateRequestStatus(
     requestId,
     status
   );
-
-const request = document
-  .querySelector(
-    `[data-id="${requestId}"]`
-  );
-
-if(
-  status === "pending"
-){
-
-  alert(
-    "Cannot revert status."
-  );
-
-  return;
-
-}
   
   const { data, error } = await supabaseClient
     .from("payment_requests")
