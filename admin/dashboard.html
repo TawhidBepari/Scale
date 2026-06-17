@@ -227,7 +227,11 @@ textarea{
 }
 
 .request-btn:hover{
+
   transform:translateY(-2px);
+
+  filter:brightness(1.08);
+
 }
 
 .contacted-btn{
@@ -284,6 +288,62 @@ textarea{
 .status-declined{
 
   background:rgba(239,68,68,.12);
+
+  color:#f87171;
+
+} 
+
+ .request-status{
+
+  margin:16px 0;
+
+}
+
+.status-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  font-size:.9rem;
+
+  font-weight:700;
+
+}
+
+.status-badge.pending{
+
+  background:rgba(245,158,11,.15);
+
+  color:#fbbf24;
+
+}
+
+.status-badge.contacted{
+
+  background:rgba(59,130,246,.15);
+
+  color:#60a5fa;
+
+}
+
+.status-badge.paid{
+
+  background:rgba(34,197,94,.15);
+
+  color:#4ade80;
+
+}
+
+.status-badge.declined{
+
+  background:rgba(239,68,68,.15);
 
   color:#f87171;
 
@@ -507,15 +567,61 @@ textarea{
 
 </section>
 
-   <section class="section" id="paymentsSection">
+  <section
+  class="section"
+  id="paymentsPendingSection"
+>
 
   <div class="card">
 
     <h2>
-      Payment Requests
+      Pending Requests
+      <span id="pendingCount"></span>
     </h2>
 
-    <div id="paymentRequestsContainer">
+    <div id="pendingRequestsContainer">
+      Loading...
+    </div>
+
+  </div>
+
+</section>
+
+
+<section
+  class="section"
+  id="paymentsPaidSection"
+>
+
+  <div class="card">
+
+    <h2>
+      Completed Payments
+      <span id="pendingCount"></span>
+    </h2>
+
+    <div id="paidRequestsContainer">
+      Loading...
+    </div>
+
+  </div>
+
+</section>
+
+
+<section
+  class="section"
+  id="paymentsDeclinedSection"
+>
+
+  <div class="card">
+
+    <h2>
+      Declined Requests
+      <span id="pendingCount"></span>
+    </h2>
+
+    <div id="declinedRequestsContainer">
       Loading...
     </div>
 
@@ -1219,30 +1325,54 @@ async function loadPaymentRequests(){
       ascending:false
     });
 
-  const container =
-    document.getElementById(
-      "paymentRequestsContainer"
-    );
+const pendingContainer =
+  document.getElementById(
+    "pendingRequestsContainer"
+  );
 
-  if(error){
+const paidContainer =
+  document.getElementById(
+    "paidRequestsContainer"
+  );
 
-    console.error(error);
+const declinedContainer =
+  document.getElementById(
+    "declinedRequestsContainer"
+  );
 
-    container.innerHTML =
-      "Failed to load requests.";
+pendingContainer.innerHTML = "";
+paidContainer.innerHTML = "";
+declinedContainer.innerHTML = "";
 
-    return;
-  }
+ if(error){
 
-  if(!data || !data.length){
+  console.error(error);
 
-    container.innerHTML =
-      "No payment requests yet.";
+  pendingContainer.innerHTML =
+    "Failed to load requests.";
 
-    return;
-  }
+  paidContainer.innerHTML =
+    "Failed to load requests.";
 
-  container.innerHTML = "";
+  declinedContainer.innerHTML =
+    "Failed to load requests.";
+
+  return;
+}
+
+ if(!data || !data.length){
+
+  pendingContainer.innerHTML =
+    "No pending requests.";
+
+  paidContainer.innerHTML =
+    "No completed payments.";
+
+  declinedContainer.innerHTML =
+    "No declined requests.";
+
+  return;
+}
 
   data.forEach(request => {
 
@@ -1280,11 +1410,6 @@ async function loadPaymentRequests(){
         ${request.customer_email}
       </p>
 
-<p>
-  <strong>ID:</strong>
-  ${request.id}
-</p>
-
       <p>
         <strong>Country:</strong>
         ${request.country || "-"}
@@ -1300,10 +1425,50 @@ async function loadPaymentRequests(){
         }
       </p>
 
-      <p>
-        <strong>Status:</strong>
-        ${request.status}
-      </p>
+      <div class="request-status">
+
+${
+request.status === "pending"
+
+? `
+<span class="status-badge pending">
+
+⏳ Pending
+
+</span>
+`
+
+: request.status === "contacted"
+
+? `
+<span class="status-badge contacted">
+
+✉ Contacted
+
+</span>
+`
+
+: request.status === "paid"
+
+? `
+<span class="status-badge paid">
+
+✓ Paid
+
+</span>
+`
+
+: `
+<span class="status-badge declined">
+
+✕ Declined
+
+</span>
+`
+
+}
+
+</div>
 
       <p>
         <strong>Requested:</strong>
@@ -1386,8 +1551,36 @@ request.status === "pending"
 
     `;
 
-    container.appendChild(card);
+if(request.status === "pending"){
 
+  pendingContainer.appendChild(card);
+
+}
+
+else if(
+  request.status === "contacted"
+){
+
+  pendingContainer.appendChild(card);
+
+}
+
+else if(
+  request.status === "paid"
+){
+
+  paidContainer.appendChild(card);
+
+}
+
+else if(
+  request.status === "declined"
+){
+
+  declinedContainer.appendChild(card);
+
+}
+    
 const contactedBtn =
   card.querySelector(".contacted-btn");
 
