@@ -398,10 +398,18 @@ textarea{
         Bonuses
       </button>
 
-      <button data-section="paymentsSection">
-        Payment Requests
-      </button>
+      <button data-section="paymentsPendingSection">
+  Pending
+</button>
 
+<button data-section="paymentsPaidSection">
+  Completed
+</button>
+
+<button data-section="paymentsDeclinedSection">
+  Declined
+</button>
+      
     </div>
 
   </aside>
@@ -597,7 +605,7 @@ textarea{
 
     <h2>
       Completed Payments
-      <span id="pendingCount"></span>
+      <span id="paidCount"></span>
     </h2>
 
     <div id="paidRequestsContainer">
@@ -618,7 +626,7 @@ textarea{
 
     <h2>
       Declined Requests
-      <span id="pendingCount"></span>
+      <span id="declinedCount"></span>
     </h2>
 
     <div id="declinedRequestsContainer">
