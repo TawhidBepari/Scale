@@ -1352,6 +1352,10 @@ pendingContainer.innerHTML = "";
 paidContainer.innerHTML = "";
 declinedContainer.innerHTML = "";
 
+  let pendingCount = 0;
+let paidCount = 0;
+let declinedCount = 0;
+  
  if(error){
 
   console.error(error);
@@ -1561,29 +1565,31 @@ request.status === "pending"
 
 if(request.status === "pending"){
 
-  pendingContainer.appendChild(card);
-
-}
-
-else if(
-  request.status === "contacted"
-){
+  pendingCount++;
 
   pendingContainer.appendChild(card);
 
 }
 
-else if(
-  request.status === "paid"
-){
+else if(request.status === "contacted"){
+
+  pendingCount++;
+
+  pendingContainer.appendChild(card);
+
+}
+
+else if(request.status === "paid"){
+
+  paidCount++;
 
   paidContainer.appendChild(card);
 
 }
 
-else if(
-  request.status === "declined"
-){
+else if(request.status === "declined"){
+
+  declinedCount++;
 
   declinedContainer.appendChild(card);
 
@@ -1635,6 +1641,21 @@ if(declinedBtn){
     
   });
 
+  document.getElementById(
+  "pendingCount"
+).textContent =
+  `(${pendingCount})`;
+
+document.getElementById(
+  "paidCount"
+).textContent =
+  `(${paidCount})`;
+
+document.getElementById(
+  "declinedCount"
+).textContent =
+  `(${declinedCount})`;
+  
 }
 
 async function updateRequestStatus(
