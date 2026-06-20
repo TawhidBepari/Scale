@@ -492,7 +492,25 @@ textarea{
 
           <input type="text" id="slug" placeholder="Slug">
 
-          <input type="text" id="tag" placeholder="Tag (Featured, Premium etc.)">
+      <input
+  type="text"
+  id="tag"
+  placeholder="Featured,Bestseller"
+>
+
+<div style="
+  color:#8fa3b8;
+  font-size:.85rem;
+  margin-top:8px;
+">
+
+  Separate multiple tags with commas.
+
+  Example:
+
+  Featured,Bestseller
+
+</div>
 
           <input type="text" id="price" placeholder="Price">
 
@@ -855,9 +873,42 @@ async function loadServices(){
             ${service.short_description || ""}
           </p>
 
-          <div class="badge">
-            ${service.active ? "Active" : "Inactive"}
-          </div>
+          <div style="
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+">
+
+${
+service.tags
+
+? service.tags
+
+    .split(",")
+
+    .map(tag => `
+
+      <div class="badge">
+
+        ${tag.trim()}
+
+      </div>
+
+    `)
+
+    .join("")
+
+: `
+<div class="badge">
+
+${service.active ? "Active" : "Inactive"}
+
+</div>
+`
+}
+
+</div>
 
         </div>
 
@@ -917,7 +968,7 @@ document.getElementById("saveServiceBtn").onclick = async () => {
     slug:
       document.getElementById("slug").value,
 
-    tag:
+    tags:
       document.getElementById("tag").value || "Featured",
 
     short_description:
@@ -1025,7 +1076,7 @@ async function editService(id){
     data.slug || "";
 
   document.getElementById("tag").value =
-    data.tag || "";
+    data.tags || "";
 
   document.getElementById("short_description").value =
     data.short_description || "";
