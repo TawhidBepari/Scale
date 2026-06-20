@@ -348,6 +348,62 @@ textarea{
   color:#f87171;
 
 } 
+
+.payment-tabs{
+
+  display:flex;
+
+  gap:12px;
+
+  margin-bottom:28px;
+
+  flex-wrap:wrap;
+
+}
+
+
+.payment-tab{
+
+  background:#161f2b;
+
+  border:none;
+
+  color:#cbd5e1;
+
+  padding:12px 18px;
+
+  border-radius:14px;
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  transition:.2s;
+
+}
+
+  
+.payment-tab.active{
+
+  background:#2563eb;
+
+  color:white;
+
+}
+
+
+.payment-content{
+
+  display:none;
+
+}
+
+
+.payment-content.active{
+
+  display:block;
+
+}  
   
 @media(max-width:900px){
 
@@ -398,16 +454,10 @@ textarea{
         Bonuses
       </button>
 
-      <button data-section="paymentsPendingSection">
-  Pending
-</button>
+     <button data-section="paymentsSection">
 
-<button data-section="paymentsPaidSection">
-  Completed
-</button>
+  Payment Requests
 
-<button data-section="paymentsDeclinedSection">
-  Declined
 </button>
       
     </div>
@@ -575,62 +625,83 @@ textarea{
 
 </section>
 
-  <section
-  class="section"
-  id="paymentsPendingSection"
->
-
-  <div class="card">
-
-    <h2>
-      Pending Requests
-      <span id="pendingCount"></span>
-    </h2>
-
-    <div id="pendingRequestsContainer">
-      Loading...
-    </div>
-
-  </div>
-
-</section>
-
-
 <section
   class="section"
-  id="paymentsPaidSection"
+  id="paymentsSection"
 >
 
   <div class="card">
 
     <h2>
-      Completed Payments
-      <span id="paidCount"></span>
+
+      Payment Requests
+
     </h2>
 
-    <div id="paidRequestsContainer">
-      Loading...
+    <div class="payment-tabs">
+
+      <button
+        class="payment-tab active"
+        data-tab="pending"
+      >
+
+        Pending
+
+        <span id="pendingCount">
+          (0)
+        </span>
+
+      </button>
+
+      <button
+        class="payment-tab"
+        data-tab="paid"
+      >
+
+        Completed
+
+        <span id="paidCount">
+          (0)
+        </span>
+
+      </button>
+
+      <button
+        class="payment-tab"
+        data-tab="declined"
+      >
+
+        Declined
+
+        <span id="declinedCount">
+          (0)
+        </span>
+
+      </button>
+
     </div>
 
-  </div>
+    <div
+      id="pendingRequestsContainer"
+      class="payment-content active"
+    >
 
-</section>
-
-
-<section
-  class="section"
-  id="paymentsDeclinedSection"
->
-
-  <div class="card">
-
-    <h2>
-      Declined Requests
-      <span id="declinedCount"></span>
-    </h2>
-
-    <div id="declinedRequestsContainer">
       Loading...
+
+    </div>
+
+    <div
+      id="paidRequestsContainer"
+      class="payment-content"
+    >
+
+    </div>
+
+    <div
+      id="declinedRequestsContainer"
+      class="payment-content"
+    >
+
     </div>
 
   </div>
@@ -1702,6 +1773,70 @@ async function updateRequestStatus(
   loadPaymentRequests();
 
 }
+
+document
+
+.querySelectorAll(".payment-tab")
+
+.forEach(tab => {
+
+  tab.onclick = () => {
+
+    document
+
+      .querySelectorAll(".payment-tab")
+
+      .forEach(
+
+        t =>
+
+          t.classList.remove(
+            "active"
+          )
+      );
+
+
+    document
+
+      .querySelectorAll(
+        ".payment-content"
+      )
+
+      .forEach(
+
+        c =>
+
+          c.classList.remove(
+            "active"
+          )
+      );
+
+
+    tab.classList.add(
+      "active"
+    );
+
+
+    const target =
+
+      tab.dataset.tab;
+
+
+    document
+
+      .getElementById(
+
+        `${target}RequestsContainer`
+
+      )
+
+      .classList.add(
+        "active"
+      );
+
+  };
+
+});  
 
 loadPaymentRequests();  
   
