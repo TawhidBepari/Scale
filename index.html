@@ -209,15 +209,27 @@
       border-color:rgba(255,255,255,.14);
     }
 
-    .service-tag{
-      display:inline-block;
-      background:#1a2532;
-      color:#7dd3fc;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:.8rem;
-      margin-bottom:18px;
-    }
+   .service-tag{
+  display:inline-block;
+  background:#1a2532;
+  color:#7dd3fc;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:600;
+}
+
+    .service-tags{
+
+  display:flex;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:18px;
+
+}
 
     .service-card h3{
       font-size:1.4rem;
@@ -530,9 +542,29 @@ async function loadServices(){
     alt="${service.title || ""}"
   >
 
-  <div class="service-tag">
-    ${service.tag || "Featured"}
-  </div>
+  <div class="service-tags">
+
+${
+(service.tags || service.tag || "")
+
+  .split(",")
+
+  .filter(tag => tag.trim() !== "")
+
+  .map(tag => `
+
+    <div class="service-tag">
+
+      ${tag.trim()}
+
+    </div>
+
+  `)
+
+  .join("")
+}
+
+</div>
 
   <h3>
     ${service.title || ""}
