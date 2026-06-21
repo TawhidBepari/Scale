@@ -605,9 +605,9 @@ async function loadService(){
     return;
   }
 
-  currentService = data;
+currentService = data;
 
-  console.log(data.tag);
+console.log(data.tags);
   
   document.title =
     (data.title || "Service") + " — SCALE";
@@ -638,11 +638,12 @@ const tagsContainer =
 
 tagsContainer.innerHTML = "";
 
-if(data.tag){
+if(data.tags){
 
-  data.tag
+  data.tags
     .split(",")
     .map(tag => tag.trim())
+    .filter(tag => tag)
     .forEach(tag => {
 
       tagsContainer.innerHTML += `
