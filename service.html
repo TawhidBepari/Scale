@@ -74,15 +74,35 @@
       object-fit:cover;
     }
 
-    .tag{
-      display:inline-block;
-      background:#13202d;
-      color:#7dd3fc;
-      padding:8px 14px;
-      border-radius:999px;
-      font-size:.85rem;
-      margin-bottom:24px;
-    }
+#serviceTags{
+
+  display:flex;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:24px;
+
+}
+
+.service-tag{
+
+  display:inline-block;
+
+  background:#13202d;
+
+  color:#7dd3fc;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  font-size:.85rem;
+
+  font-weight:600;
+
+}
 
     h1{
       font-size:4rem;
@@ -370,9 +390,7 @@
       alt="Service"
     >
 
-    <div class="tag" id="serviceTag">
-      Featured
-    </div>
+<div id="serviceTags"></div>
 
     <h1 id="serviceName">
       Loading...
@@ -611,8 +629,33 @@ async function loadService(){
     data.cover_image ||
     "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop";
 
-  document.getElementById("serviceTag").innerText =
-    data.tag || "Featured";
+const tagsContainer =
+  document.getElementById(
+    "serviceTags"
+  );
+
+tagsContainer.innerHTML = "";
+
+if(data.tag){
+
+  data.tag
+    .split(",")
+    .map(tag => tag.trim())
+    .forEach(tag => {
+
+      tagsContainer.innerHTML += `
+
+        <span class="service-tag">
+
+          ${tag}
+
+        </span>
+
+      `;
+
+    });
+
+}
 
   if(data.installment_enabled){
 
@@ -985,13 +1028,17 @@ if(existingRequest && existingRequest.length > 0){
     "Your request was received successfully."
   );
 
-  document.getElementById(
-    "fullPaymentEmail"
-  ).value = "";
+ document.getElementById(
+  "customerName"
+).value = "";
 
-  document.getElementById(
-    "installmentEmail"
-  ).value = "";
+document.getElementById(
+  "customerEmail"
+).value = "";
+
+document.getElementById(
+  "customerCountry"
+).value = "";
 
 }
 
