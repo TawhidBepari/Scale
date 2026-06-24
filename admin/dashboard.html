@@ -404,6 +404,72 @@ textarea{
   display:block;
 
 }  
+
+.review-card{
+
+  background:#0e141c;
+
+  border:1px solid rgba(255,255,255,.06);
+
+  border-radius:16px;
+
+  padding:20px;
+
+  margin-bottom:16px;
+
+}
+
+.review-stars{
+
+  color:#fbbf24;
+
+  font-size:1.1rem;
+
+  margin-bottom:10px;
+
+}
+
+.review-meta{
+
+  color:#91a2b2;
+
+  font-size:.9rem;
+
+  margin-bottom:12px;
+
+}
+
+.review-reply{
+
+  margin-top:14px;
+
+  padding:14px;
+
+  border-radius:12px;
+
+  background:rgba(34,197,94,.08);
+
+  border:1px solid rgba(34,197,94,.15);
+
+}
+
+.reply-btn{
+
+  margin-top:12px;
+
+  background:#2563eb;
+
+  color:white;
+
+  border:none;
+
+  padding:10px 14px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+}  
   
 @media(max-width:900px){
 
@@ -573,22 +639,6 @@ textarea{
 
     </section>
 
-    <section class="section" id="reviewsSection">
-
-      <div class="card">
-
-        <h2>
-          Reviews
-        </h2>
-
-        <p class="empty">
-          Reviews management coming next.
-        </p>
-
-      </div>
-
-    </section>
-
     <section class="section" id="bonusesSection">
 
   <div class="card">
@@ -725,6 +775,27 @@ textarea{
   </div>
 
 </section>
+
+<section
+  class="section"
+  id="reviewsSection"
+>
+
+  <div class="card">
+
+    <h2>
+      Reviews
+    </h2>
+
+    <div id="reviewsContainer">
+
+      Loading...
+
+    </div>
+
+  </div>
+
+</section>    
 
   </main>
 
