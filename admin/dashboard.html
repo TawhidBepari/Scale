@@ -1514,6 +1514,124 @@ async function deleteBonus(id){
 
 }
 
+async function loadReviews(){
+
+  const container =
+    document.getElementById(
+      "reviewsContainer"
+    );
+
+  const { data, error } =
+    await supabaseClient
+
+      .from("reviews")
+
+      .select(`
+        *,
+        services (
+          title
+        )
+      `)
+
+      .order("created_at", {
+        ascending:false
+      });
+
+  if(error){
+
+    console.error(error);
+
+    container.innerHTML =
+      "Failed to load reviews.";
+
+    return;
+
+  }
+
+  if(!data || !data.length){
+
+    container.innerHTML =
+      "No reviews yet.";
+
+    return;
+
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(review => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "review-card";
+
+    card.innerHTML = `
+
+      <div class="review-stars">
+
+        ${"★".repeat(review.rating || 5)}
+
+      </div>
+
+      <h3>
+
+        ${review.client_name}
+
+      </h3>
+
+      <div class="review-meta">
+
+        ${
+          review.services?.title || "-"
+        }
+
+        •
+
+        ${
+          review.country || "-"
+        }
+
+      </div>
+
+      <p>
+
+        ${review.review}
+
+      </p>
+
+      <div style="
+        margin-top:12px;
+      ">
+
+        ${
+          review.verified
+
+          ? "✓ Verified Client"
+
+          : ""
+        }
+
+      </div>
+
+      <button
+        class="reply-btn"
+        data-id="${review.id}"
+      >
+
+        Reply
+
+      </button>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}  
+
 async function loadPaymentRequests(){
 
   const { data, error } = await supabaseClient
@@ -1962,8 +2080,10 @@ document
 
 });  
 
-loadPaymentRequests();  
-  
+loadPaymentRequests();
+
+loadReviews();
+
 loadServices();
 
 loadBonusServiceOptions();
