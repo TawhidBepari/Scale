@@ -1521,21 +1521,16 @@ async function loadReviews(){
       "reviewsContainer"
     );
 
-  const { data, error } =
-    await supabaseClient
+ const { data, error } =
+  await supabaseClient
+    .from("reviews")
+    .select("*")
+    .order("created_at", {
+      ascending: false
+    });
 
-      .from("reviews")
-
-      .select(`
-        *,
-        services (
-          title
-        )
-      `)
-
-      .order("created_at", {
-        ascending:false
-      });
+console.log("REVIEWS DATA:", data);
+console.log("REVIEWS ERROR:", error);
 
   if(error){
 
