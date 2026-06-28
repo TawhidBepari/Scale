@@ -470,6 +470,52 @@ textarea{
   cursor:pointer;
 
 }  
+
+.reply-box{
+
+  margin-top:18px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:12px;
+
+}
+
+.reply-text{
+
+  min-height:110px;
+
+  resize:vertical;
+
+}
+
+.save-reply-btn{
+
+  align-self:flex-end;
+
+  background:#2563eb;
+
+  color:white;
+
+  border:none;
+
+  padding:12px 18px;
+
+  border-radius:12px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+}
+
+.save-reply-btn:hover{
+
+  opacity:.9;
+
+}  
   
 @media(max-width:900px){
 
@@ -1521,12 +1567,21 @@ async function loadReviews(){
       "reviewsContainer"
     );
 
- const { data, error } =
+const { data, error } =
   await supabaseClient
     .from("reviews")
-    .select("*")
+    .select(`
+      *,
+      services (
+        title
+      ),
+      review_replies (
+        id,
+        reply
+      )
+    `)
     .order("created_at", {
-      ascending: false
+      ascending:false
     });
 
 console.log("REVIEWS DATA:", data);
@@ -1610,19 +1665,101 @@ console.log("REVIEWS ERROR:", error);
 
       </div>
 
-      <button
-        class="reply-btn"
-        data-id="${review.id}"
-      >
+      <div class="reply-box">
 
-        Reply
+<textarea
+  class="reply-text"
+  data-id="${review.id}"
+  placeholder="Write a reply..."
+>${review.review_replies?.[0]?.reply || ""}</textarea>
 
-      </button>
+<button
+  class="save-reply-btn"
+  data-id="${review.id}"
+>
+  ${
+    review.review_replies?.length
+      ? "Update Reply"
+      : "Save Reply"
+  }
+</button>
+
+</div>
 
     `;
 
     container.appendChild(card);
 
+    const saveReplyBtn =
+  card.querySelector(".save-reply-btn");
+
+if(saveReplyBtn){
+
+  saveReplyBtn.onclick = async () => {
+
+    const replyText =
+      card.querySelector(".reply-text")
+      .value
+      .trim();
+
+    if(!replyText){
+
+      alert(
+        "Reply cannot be empty."
+      );
+
+      return;
+
+    }
+
+    const existingReply =
+      review.review_replies?.[0];
+
+    let result;
+
+    if(existingReply){
+
+      result =
+        await supabaseClient
+          .from("review_replies")
+          .update({
+            reply: replyText
+          })
+          .eq(
+            "id",
+            existingReply.id
+          );
+
+    }
+
+    else{
+
+      result =
+        await supabaseClient
+          .from("review_replies")
+          .insert({
+            review_id: review.id,
+            reply: replyText
+          });
+
+    }
+
+    if(result.error){
+
+      alert(
+        result.error.message
+      );
+
+      return;
+
+    }
+
+    loadReviews();
+
+  };
+
+}
+    
   });
 
 }  
