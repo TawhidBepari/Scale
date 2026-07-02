@@ -416,6 +416,44 @@ color:#7dd3fc;
 
 }
 
+.review-summary{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+margin-bottom:28px;
+
+flex-wrap:wrap;
+
+}
+
+.summary-stars{
+
+color:#fbbf24;
+
+font-size:1.3rem;
+
+}
+
+.summary-score{
+
+font-size:1.4rem;
+
+font-weight:700;
+
+}
+
+.summary-count{
+
+color:#94a3b8;
+
+font-size:.95rem;
+
+}    
+    
     @media screen and (max-width:900px){
 
       .hero{
@@ -488,9 +526,16 @@ color:#7dd3fc;
   id="reviewsSection"
 >
 
-  <h3>
-    Client Reviews
-  </h3>
+<h3>
+
+Reviews
+
+</h3>
+
+<div
+  id="reviewSummary"
+  class="review-summary"
+></div>
 
   <div
     class="reviews"
@@ -951,6 +996,41 @@ if(!data || !data.length){
 reviewsSection.style.display =
   "block";
 
+const average = (
+  data.reduce(
+    (sum, review) =>
+      sum + (review.rating || 5),
+    0
+  ) / data.length
+).toFixed(1);
+
+document.getElementById(
+  "reviewSummary"
+).innerHTML = `
+
+<div class="summary-stars">
+
+${"★".repeat(
+  Math.round(average)
+)}
+
+</div>
+
+<div class="summary-score">
+
+${average}
+
+</div>
+
+<div class="summary-count">
+
+${data.length}
+Verified Review${data.length > 1 ? "s" : ""}
+
+</div>
+
+`;  
+  
   data.forEach(review => {
 
     const div = document.createElement("div");
