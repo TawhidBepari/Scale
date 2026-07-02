@@ -483,16 +483,22 @@ color:#7dd3fc;
       
     </div>
 
-    <div class="card">
+   <div
+  class="card"
+  id="reviewsSection"
+>
 
-      <h3>
-        Client Reviews
-      </h3>
+  <h3>
+    Client Reviews
+  </h3>
 
-      <div class="reviews" id="reviewsContainer">
-      </div>
+  <div
+    class="reviews"
+    id="reviewsContainer"
+  >
+  </div>
 
-    </div>
+</div>
 
   </div>
 
@@ -928,18 +934,22 @@ async function loadReviews(serviceId){
 
   container.innerHTML = "";
 
-  if(!data || !data.length){
+  const reviewsSection =
+  document.getElementById(
+    "reviewsSection"
+  );
 
-    container.innerHTML = `
-      <div class="review">
-        <p>
-          No reviews yet.
-        </p>
-      </div>
-    `;
+if(!data || !data.length){
 
-    return;
-  }
+  reviewsSection.style.display =
+    "none";
+
+  return;
+
+}
+
+reviewsSection.style.display =
+  "block";
 
   data.forEach(review => {
 
