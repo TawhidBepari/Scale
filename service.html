@@ -344,6 +344,78 @@
       margin-top:80px;
     }
 
+    .review-stars{
+
+color:#fbbf24;
+
+font-size:1.1rem;
+
+margin-bottom:10px;
+
+}
+
+.review-text{
+
+margin-bottom:16px;
+
+line-height:1.7;
+
+}
+
+.review-author{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:18px;
+
+flex-wrap:wrap;
+
+}
+
+.verified-badge{
+
+background:#0f766e;
+
+color:white;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+font-size:.75rem;
+
+font-weight:700;
+
+}
+
+.review-reply{
+
+margin-top:20px;
+
+padding:18px;
+
+background:#101826;
+
+border-left:4px solid #3b82f6;
+
+border-radius:12px;
+
+}
+
+.reply-title{
+
+font-weight:700;
+
+margin-bottom:8px;
+
+color:#7dd3fc;
+
+}
+
     @media screen and (max-width:900px){
 
       .hero{
@@ -831,9 +903,14 @@ div.innerHTML = `
 
 async function loadReviews(serviceId){
 
-  const { data, error } = await supabaseClient
-    .from("reviews")
-    .select("*")
+ const { data, error } = await supabaseClient
+  .from("reviews")
+  .select(`
+    *,
+    review_replies (
+      reply
+    )
+  `)
     .eq("service_id", serviceId)
     .order("created_at", {
       ascending:false
@@ -872,15 +949,68 @@ async function loadReviews(serviceId){
 
     div.innerHTML = `
 
-      <p>
-        "${review.review_text || ""}"
-      </p>
+<div class="review-stars">
 
-      <strong>
-        — ${review.reviewer_name || "Anonymous"}
-      </strong>
+${"★".repeat(review.rating || 5)}
 
-    `;
+</div>
+
+<p class="review-text">
+
+"${review.review}"
+
+</p>
+
+<div class="review-author">
+
+<strong>
+
+${review.client_name}
+
+</strong>
+
+${
+review.verified
+
+? `<span class="verified-badge">
+
+✓ Verified Client
+
+</span>`
+
+: ""
+}
+
+</div>
+
+${
+review.review_replies?.length
+
+? `
+
+<div class="review-reply">
+
+<div class="reply-title">
+
+Reply from SCALE
+
+</div>
+
+<p>
+
+${review.review_replies[0].reply}
+
+</p>
+
+</div>
+
+`
+
+: ""
+
+}
+
+`;
 
     container.appendChild(div);
 
