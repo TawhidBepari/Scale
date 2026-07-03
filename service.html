@@ -471,6 +471,121 @@ margin-top:32px;
 text-align:center;
 
 }
+
+.review-modal{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(0,0,0,.75);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+padding:20px;
+
+}
+
+.review-modal-content{
+
+background:#0f172a;
+
+padding:36px;
+
+border-radius:24px;
+
+width:100%;
+
+max-width:560px;
+
+position:relative;
+
+display:flex;
+
+flex-direction:column;
+
+gap:16px;
+
+}
+
+.review-modal-content input,
+.review-modal-content textarea{
+
+width:100%;
+
+padding:14px;
+
+border-radius:12px;
+
+border:none;
+
+background:#1e293b;
+
+color:white;
+
+font-size:1rem;
+
+}
+
+.review-modal-content textarea{
+
+height:160px;
+
+resize:vertical;
+
+}
+
+.close-review-modal{
+
+position:absolute;
+
+top:18px;
+
+right:20px;
+
+background:none;
+
+border:none;
+
+color:white;
+
+font-size:2rem;
+
+cursor:pointer;
+
+}
+
+.rating-picker{
+
+display:flex;
+
+gap:10px;
+
+font-size:2rem;
+
+cursor:pointer;
+
+}
+
+.rating-picker span{
+
+color:#475569;
+
+transition:.2s;
+
+}
+
+.rating-picker span.active{
+
+color:#fbbf24;
+
+}
     
     @media screen and (max-width:900px){
 
@@ -1324,7 +1439,145 @@ document.getElementById("installmentBtn").onclick = () => {
 
 loadService();
 
+let selectedRating = 5;
+
+const reviewModal =
+  document.getElementById(
+    "reviewModal"
+  );
+
+document
+  .getElementById(
+    "openReviewModal"
+  )
+  .onclick = () => {
+
+    reviewModal.style.display =
+      "flex";
+
+};
+
+document
+  .getElementById(
+    "closeReviewModal"
+  )
+  .onclick = () => {
+
+    reviewModal.style.display =
+      "none";
+
+};
+
+document
+  .querySelectorAll(
+    ".rating-picker span"
+  )
+  .forEach(star => {
+
+    star.onclick = () => {
+
+      selectedRating =
+        Number(
+          star.dataset.rating
+        );
+
+      document
+        .querySelectorAll(
+          ".rating-picker span"
+        )
+        .forEach(s => {
+
+          s.classList.toggle(
+            "active",
+
+            Number(
+              s.dataset.rating
+            ) <= selectedRating
+
+          );
+
+        });
+
+    };
+
+});
+
+document
+  .querySelector(
+    '.rating-picker span[data-rating="5"]'
+  )
+  .click();  
+  
 </script>
 
+<div id="reviewModal" class="review-modal">
+
+  <div class="review-modal-content">
+
+    <button
+      id="closeReviewModal"
+      class="close-review-modal"
+    >
+      ×
+    </button>
+
+    <h2>
+
+      Leave a Review
+
+    </h2>
+
+    <div class="rating-picker">
+
+      <span data-rating="1">★</span>
+      <span data-rating="2">★</span>
+      <span data-rating="3">★</span>
+      <span data-rating="4">★</span>
+      <span data-rating="5">★</span>
+
+    </div>
+
+    <input
+      id="reviewName"
+      type="text"
+      placeholder="Your Name"
+    >
+
+    <input
+      id="reviewEmail"
+      type="email"
+      placeholder="Email used when purchasing"
+    >
+
+    <input
+      id="reviewCompany"
+      type="text"
+      placeholder="Company (optional)"
+    >
+
+    <input
+      id="reviewCountry"
+      type="text"
+      placeholder="Country (optional)"
+    >
+
+    <textarea
+      id="reviewText"
+      placeholder="Share your experience..."
+    ></textarea>
+
+    <button
+      id="submitReviewBtn"
+      class="primary-btn"
+    >
+
+      Submit Review
+
+    </button>
+
+  </div>
+
+</div>  
+  
 </body>
 </html>
