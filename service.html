@@ -1439,74 +1439,111 @@ document.getElementById("installmentBtn").onclick = () => {
 
 loadService();
 
+const reviewModal =
+  document.getElementById("reviewModal");
+
+const openReviewBtn =
+  document.getElementById("openReviewModal");
+
+const closeReviewBtn =
+  document.getElementById("closeReviewModal");
+
 let selectedRating = 5;
 
-const reviewModal =
-  document.getElementById(
-    "reviewModal"
+function openReviewModal(){
+
+  reviewModal.style.display = "flex";
+
+  document.body.style.overflow = "hidden";
+
+}
+
+function closeReviewModal(){
+
+  reviewModal.style.display = "none";
+
+  document.body.style.overflow = "";
+
+}
+
+openReviewBtn.addEventListener(
+  "click",
+  openReviewModal
+);
+
+closeReviewBtn.addEventListener(
+  "click",
+  closeReviewModal
+);
+
+reviewModal.addEventListener(
+  "click",
+  e => {
+
+    if(e.target === reviewModal){
+
+      closeReviewModal();
+
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  e => {
+
+    if(e.key === "Escape"){
+
+      closeReviewModal();
+
+    }
+
+  }
+);
+
+const stars =
+  document.querySelectorAll(
+    ".rating-picker span"
   );
 
-document
-  .getElementById(
-    "openReviewModal"
-  )
-  .onclick = () => {
+function paintStars(value){
 
-    reviewModal.style.display =
-      "flex";
+  stars.forEach(star => {
 
-};
+    const rating =
+      Number(
+        star.dataset.rating
+      );
 
-document
-  .getElementById(
-    "closeReviewModal"
-  )
-  .onclick = () => {
+    star.classList.toggle(
+      "active",
+      rating <= value
+    );
 
-    reviewModal.style.display =
-      "none";
+  });
 
-};
+}
 
-document
-  .querySelectorAll(
-    ".rating-picker span"
-  )
-  .forEach(star => {
+stars.forEach(star => {
 
-    star.onclick = () => {
+  star.addEventListener(
+    "click",
+    () => {
 
       selectedRating =
         Number(
           star.dataset.rating
         );
 
-      document
-        .querySelectorAll(
-          ".rating-picker span"
-        )
-        .forEach(s => {
+      paintStars(selectedRating);
 
-          s.classList.toggle(
-            "active",
-
-            Number(
-              s.dataset.rating
-            ) <= selectedRating
-
-          );
-
-        });
-
-    };
+    }
+  );
 
 });
 
-document
-  .querySelector(
-    '.rating-picker span[data-rating="5"]'
-  )
-  .click();  
+paintStars(5);
   
 </script>
 
