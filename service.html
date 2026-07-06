@@ -1439,6 +1439,8 @@ document.getElementById("installmentBtn").onclick = () => {
 
 loadService();
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const reviewModal =
   document.getElementById("reviewModal");
 
@@ -1450,100 +1452,78 @@ const closeReviewBtn =
 
 let selectedRating = 5;
 
-function openReviewModal(){
-
-  reviewModal.style.display = "flex";
-
-  document.body.style.overflow = "hidden";
-
-}
-
-function closeReviewModal(){
-
-  reviewModal.style.display = "none";
-
-  document.body.style.overflow = "";
-
-}
-
-openReviewBtn.addEventListener(
-  "click",
-  openReviewModal
-);
-
-closeReviewBtn.addEventListener(
-  "click",
-  closeReviewModal
-);
-
-reviewModal.addEventListener(
-  "click",
-  e => {
-
-    if(e.target === reviewModal){
-
-      closeReviewModal();
-
-    }
-
-  }
-);
-
-document.addEventListener(
-  "keydown",
-  e => {
-
-    if(e.key === "Escape"){
-
-      closeReviewModal();
-
-    }
-
-  }
-);
-
 const stars =
-  document.querySelectorAll(
-    ".rating-picker span"
-  );
+  document.querySelectorAll(".rating-picker span");
 
 function paintStars(value){
 
-  stars.forEach(star => {
-
-    const rating =
-      Number(
-        star.dataset.rating
-      );
+  stars.forEach(star=>{
 
     star.classList.toggle(
       "active",
-      rating <= value
+      Number(star.dataset.rating)<=value
     );
 
   });
 
 }
 
-stars.forEach(star => {
+function openReviewModal(){
 
-  star.addEventListener(
-    "click",
-    () => {
+  reviewModal.style.display="flex";
 
-      selectedRating =
-        Number(
-          star.dataset.rating
-        );
+  document.body.style.overflow="hidden";
 
-      paintStars(selectedRating);
+}
 
-    }
-  );
+function closeReviewModal(){
+
+  reviewModal.style.display="none";
+
+  document.body.style.overflow="";
+
+}
+
+openReviewBtn.addEventListener("click",openReviewModal);
+
+closeReviewBtn.addEventListener("click",closeReviewModal);
+
+reviewModal.addEventListener("click",e=>{
+
+  if(e.target===reviewModal){
+
+    closeReviewModal();
+
+  }
+
+});
+
+document.addEventListener("keydown",e=>{
+
+  if(e.key==="Escape"){
+
+    closeReviewModal();
+
+  }
+
+});
+
+stars.forEach(star=>{
+
+  star.addEventListener("click",()=>{
+
+    selectedRating=
+      Number(star.dataset.rating);
+
+    paintStars(selectedRating);
+
+  });
 
 });
 
 paintStars(5);
+
+});
   
 </script>
 
