@@ -1576,44 +1576,36 @@ async function submitReview(){
   reviewStatus.innerText =
     "Verifying purchase...";
 
+  submitReviewBtn.disabled = true;
+
   const email =
     document
-      .getElementById(
-        "reviewEmail"
-      )
+      .getElementById("reviewEmail")
       .value
       .trim()
       .toLowerCase();
 
   const name =
     document
-      .getElementById(
-        "reviewName"
-      )
+      .getElementById("reviewName")
       .value
       .trim();
 
   const company =
     document
-      .getElementById(
-        "reviewCompany"
-      )
+      .getElementById("reviewCompany")
       .value
       .trim();
 
   const country =
     document
-      .getElementById(
-        "reviewCountry"
-      )
+      .getElementById("reviewCountry")
       .value
       .trim();
 
   const review =
     document
-      .getElementById(
-        "reviewText"
-      )
+      .getElementById("reviewText")
       .value
       .trim();
 
@@ -1629,21 +1621,37 @@ async function submitReview(){
     reviewStatus.innerText =
       "Please complete all required fields.";
 
+    submitReviewBtn.disabled = false;
+
     return;
 
   }
 
-  console.log("Ready to verify:",{
+  console.log("Review data:",{
+
+    service_id: currentService.id,
 
     email,
 
-    service:currentService.id,
+    name,
 
-    rating:selectedRating,
+    company,
+
+    country,
+
+    rating: selectedRating,
 
     review
 
   });
+
+  reviewStatus.className =
+    "review-status success";
+
+  reviewStatus.innerText =
+    "Validation complete.";
+
+  submitReviewBtn.disabled = false;
 
 }  
   
