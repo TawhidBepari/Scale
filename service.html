@@ -586,6 +586,38 @@ transition:.2s;
 color:#fbbf24;
 
 }
+
+.review-status{
+
+margin-top:14px;
+
+min-height:22px;
+
+font-size:.95rem;
+
+font-weight:600;
+
+text-align:center;
+
+}
+
+.review-status.success{
+
+color:#22c55e;
+
+}
+
+.review-status.error{
+
+color:#ef4444;
+
+}
+
+.review-status.loading{
+
+color:#38bdf8;
+
+}
     
     @media screen and (max-width:900px){
 
@@ -1455,6 +1487,19 @@ let selectedRating = 5;
 const stars =
   document.querySelectorAll(".rating-picker span");
 
+const submitReviewBtn =
+  document.getElementById(
+    "submitReviewBtn"
+  );
+
+const reviewStatus =
+  document.getElementById(
+    "reviewStatus"
+  );
+
+ssubmitReviewBtn.onclick =
+  submitReview; 
+  
 function paintStars(value){
 
   stars.forEach(star=>{
@@ -1523,6 +1568,85 @@ stars.forEach(star=>{
 
 paintStars(5);
 
+async function submitReview(){
+
+  reviewStatus.className =
+    "review-status loading";
+
+  reviewStatus.innerText =
+    "Verifying purchase...";
+
+  const email =
+    document
+      .getElementById(
+        "reviewEmail"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+  const name =
+    document
+      .getElementById(
+        "reviewName"
+      )
+      .value
+      .trim();
+
+  const company =
+    document
+      .getElementById(
+        "reviewCompany"
+      )
+      .value
+      .trim();
+
+  const country =
+    document
+      .getElementById(
+        "reviewCountry"
+      )
+      .value
+      .trim();
+
+  const review =
+    document
+      .getElementById(
+        "reviewText"
+      )
+      .value
+      .trim();
+
+  if(
+    !email ||
+    !name ||
+    !review
+  ){
+
+    reviewStatus.className =
+      "review-status error";
+
+    reviewStatus.innerText =
+      "Please complete all required fields.";
+
+    return;
+
+  }
+
+  console.log("Ready to verify:",{
+
+    email,
+
+    service:currentService.id,
+
+    rating:selectedRating,
+
+    review
+
+  });
+
+}  
+  
 });
   
 </script>
@@ -1592,6 +1716,11 @@ paintStars(5);
 
     </button>
 
+    <div
+  id="reviewStatus"
+  class="review-status"
+></div>
+    
   </div>
 
 </div>  
