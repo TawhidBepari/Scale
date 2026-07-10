@@ -1493,10 +1493,18 @@ const submitReviewBtn =
   );
 
 const reviewStatus =
-  document.getElementById(
-    "reviewStatus"
+  document
+  .getElementById("reviewEmail")
+  .addEventListener(
+    "blur",
+    verifyPurchaseEmail
   );
 
+const verifiedFields =
+  document.getElementById(
+    "verifiedReviewFields"
+  );  
+  
 submitReviewBtn.onclick =
   submitReview; 
   
@@ -1568,6 +1576,34 @@ stars.forEach(star=>{
 
 paintStars(5);
 
+async function verifyPurchaseEmail(){
+
+  const email =
+    document
+      .getElementById("reviewEmail")
+      .value
+      .trim()
+      .toLowerCase();
+
+  if(!email){
+
+    return;
+
+  }
+
+  reviewStatus.className =
+    "review-status loading";
+
+  reviewStatus.innerText =
+    "Checking purchase...";
+
+  console.log(
+    "Checking:",
+    email
+  );
+
+}  
+  
 async function submitReview(){
 
   reviewStatus.className =
@@ -1686,50 +1722,54 @@ async function submitReview(){
 
     </div>
 
-    <input
-      id="reviewName"
-      type="text"
-      placeholder="Your Name"
-    >
+   <input
+  id="reviewEmail"
+  type="email"
+  placeholder="Email used when purchasing"
+>
 
-    <input
-      id="reviewEmail"
-      type="email"
-      placeholder="Email used when purchasing"
-    >
+<div
+  id="verifiedReviewFields"
+  style="display:none;"
+>
 
-    <input
-      id="reviewCompany"
-      type="text"
-      placeholder="Company (optional)"
-    >
+  <input
+    id="reviewName"
+    ...
+  >
 
-    <input
-      id="reviewCountry"
-      type="text"
-      placeholder="Country (optional)"
-    >
+  <input
+    id="reviewCompany"
+    ...
+  >
 
-    <textarea
-      id="reviewText"
-      placeholder="Share your experience..."
-    ></textarea>
+  <input
+    id="reviewCountry"
+    ...
+  >
 
-    <button
-      id="submitReviewBtn"
-      class="primary-btn"
-    >
-
-      Submit Review
-
-    </button>
-
-    <div
-  id="reviewStatus"
-  class="review-status"
-></div>
-    
+  <div class="rating-picker">
+      ...
   </div>
+
+  <textarea
+    id="reviewText"
+    ...
+  ></textarea>
+
+  <button
+    id="submitReviewBtn"
+    class="primary-btn"
+  >
+    Submit Review
+  </button>
+
+  <div
+    id="reviewStatus"
+    class="review-status"
+  ></div>
+
+</div>
 
 </div>  
   
