@@ -1493,7 +1493,11 @@ const submitReviewBtn =
   );
 
 const reviewStatus =
-  document
+  document.getElementById(
+    "reviewStatus"
+  );
+
+document
   .getElementById("reviewEmail")
   .addEventListener(
     "blur",
@@ -1503,7 +1507,7 @@ const reviewStatus =
 const verifiedFields =
   document.getElementById(
     "verifiedReviewFields"
-  );  
+  );
   
 submitReviewBtn.onclick =
   submitReview; 
@@ -1728,33 +1732,39 @@ async function submitReview(){
   placeholder="Email used when purchasing"
 >
 
-<div
-  id="verifiedReviewFields"
-  style="display:none;"
->
+<div id="verifiedReviewFields" style="display:none;">
 
   <input
     id="reviewName"
-    ...
+    type="text"
+    placeholder="Your Name"
   >
 
   <input
     id="reviewCompany"
-    ...
+    type="text"
+    placeholder="Company (optional)"
   >
 
   <input
     id="reviewCountry"
-    ...
+    type="text"
+    placeholder="Country (optional)"
   >
 
   <div class="rating-picker">
-      ...
+
+    <span data-rating="1">★</span>
+    <span data-rating="2">★</span>
+    <span data-rating="3">★</span>
+    <span data-rating="4">★</span>
+    <span data-rating="5">★</span>
+
   </div>
 
   <textarea
     id="reviewText"
-    ...
+    placeholder="Share your experience..."
   ></textarea>
 
   <button
@@ -1770,7 +1780,7 @@ async function submitReview(){
   ></div>
 
 </div>
-
+    
 </div>  
   
 </body>
