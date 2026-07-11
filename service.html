@@ -1591,6 +1591,14 @@ async function verifyPurchaseEmail(){
 
   if(!email){
 
+    reviewStatus.className =
+      "review-status";
+
+    reviewStatus.innerText = "";
+
+    verifiedFields.style.display =
+      "none";
+
     return;
 
   }
@@ -1601,12 +1609,74 @@ async function verifyPurchaseEmail(){
   reviewStatus.innerText =
     "Checking purchase...";
 
-  console.log(
-    "Checking:",
-    email
-  );
+  const { data, error } =
+    await supabaseClient
+      .from("payment_requests")
+      .select(`
+        full_name,
+        company_name,
+        country
+      `)
+      .eq("customer_email", email)
+      .eq("service_id", currentService.id)
+      .eq("status", "paid")
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1)
+      .maybeSingle();
 
-}  
+  if(error){
+
+    console.error(error);
+
+    reviewStatus.className =
+      "review-status error";
+
+    reviewStatus.innerText =
+      "Unable to verify purchase.";
+
+    verifiedFields.style.display =
+      "none";
+
+    return;
+
+  }
+
+  if(!data){
+
+    reviewStatus.className =
+      "review-status error";
+
+    reviewStatus.innerText =
+      "We couldn't find a completed purchase for this service using this email.";
+
+    verifiedFields.style.display =
+      "none";
+
+    return;
+
+  }
+
+  reviewStatus.className =
+    "review-status success";
+
+  reviewStatus.innerText =
+    "✓ Verified Client";
+
+  verifiedFields.style.display =
+    "block";
+
+  document.getElementById("reviewName").value =
+    data.full_name || "";
+
+  document.getElementById("reviewCompany").value =
+    data.company_name || "";
+
+  document.getElementById("reviewCountry").value =
+    data.country || "";
+
+}
   
 async function submitReview(){
 
