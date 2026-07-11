@@ -1716,22 +1716,17 @@ async function submitReview(){
 
     </h2>
 
-    <div class="rating-picker">
-
-      <span data-rating="1">★</span>
-      <span data-rating="2">★</span>
-      <span data-rating="3">★</span>
-      <span data-rating="4">★</span>
-      <span data-rating="5">★</span>
-
-    </div>
-
    <input
   id="reviewEmail"
   type="email"
   placeholder="Email used when purchasing"
 >
 
+   <div
+    id="reviewStatus"
+    class="review-status"
+  ></div>  
+    
 <div id="verifiedReviewFields" style="display:none;">
 
   <input
@@ -1773,11 +1768,6 @@ async function submitReview(){
   >
     Submit Review
   </button>
-
-  <div
-    id="reviewStatus"
-    class="review-status"
-  ></div>
 
 </div>
     
