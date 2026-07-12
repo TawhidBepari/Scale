@@ -1484,6 +1484,8 @@ const closeReviewBtn =
 
 let selectedRating = 5;
 
+let existingReviewId = null;
+
 const stars =
   document.querySelectorAll(".rating-picker span");
 
@@ -1676,7 +1678,54 @@ async function verifyPurchaseEmail(){
   document.getElementById("reviewCountry").value =
     data.country || "";
 
+ const reviewResult =
+  await supabaseClient
+    .from("reviews")
+    .select("*")
+    .eq("customer_email", email)
+    .eq("service_id", currentService.id)
+    .limit(1)
+    .maybeSingle();
+
+if(reviewResult.error){
+
+  console.error(reviewResult.error);
+
+  return;
+
 }
+
+if(reviewResult.data){
+
+  existingReviewId =
+    reviewResult.data.id;
+
+  document.getElementById("reviewText").value =
+    reviewResult.data.review || "";
+
+  selectedRating =
+    reviewResult.data.rating || 5;
+
+  paintStars(selectedRating);
+
+  submitReviewBtn.innerText =
+    "Update Review";
+
+}else{
+
+  existingReviewId = null;
+
+  document.getElementById("reviewText").value =
+    "";
+
+  selectedRating = 5;
+
+  paintStars(5);
+
+  submitReviewBtn.innerText =
+    "Submit Review";
+
+} 
   
 async function submitReview(){
 
