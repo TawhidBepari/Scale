@@ -1616,7 +1616,7 @@ async function verifyPurchaseEmail(){
       .from("payment_requests")
       .select(`
         full_name,
-        company_name,
+        company,
         country
       `)
       .eq("customer_email", email)
@@ -1673,12 +1673,12 @@ async function verifyPurchaseEmail(){
     data.full_name || "";
 
   document.getElementById("reviewCompany").value =
-    data.company_name || "";
+    data.company || "";
 
   document.getElementById("reviewCountry").value =
     data.country || "";
 
- const reviewResult =
+const reviewResult =
   await supabaseClient
     .from("reviews")
     .select("*")
@@ -1691,14 +1691,19 @@ if(reviewResult.error){
 
   console.error(reviewResult.error);
 
-  return;
-
-}
-
-if(reviewResult.data){
+}else if(reviewResult.data){
 
   existingReviewId =
     reviewResult.data.id;
+
+  document.getElementById("reviewName").value =
+    reviewResult.data.client_name || "";
+
+  document.getElementById("reviewCompany").value =
+    reviewResult.data.company || "";
+
+  document.getElementById("reviewCountry").value =
+    reviewResult.data.country || "";
 
   document.getElementById("reviewText").value =
     reviewResult.data.review || "";
@@ -1715,8 +1720,7 @@ if(reviewResult.data){
 
   existingReviewId = null;
 
-  document.getElementById("reviewText").value =
-    "";
+  document.getElementById("reviewText").value = "";
 
   selectedRating = 5;
 
@@ -1725,7 +1729,7 @@ if(reviewResult.data){
   submitReviewBtn.innerText =
     "Submit Review";
 
-} 
+}
   
 async function submitReview(){
 
