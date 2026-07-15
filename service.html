@@ -1616,7 +1616,7 @@ async function verifyPurchaseEmail(){
       .from("payment_requests")
       .select(`
         full_name,
-        company,
+        company_name,
         country
       `)
       .eq("customer_email", email)
@@ -1673,7 +1673,7 @@ async function verifyPurchaseEmail(){
     data.full_name || "";
 
   document.getElementById("reviewCompany").value =
-    data.company || "";
+    data.company_name || "";
 
   document.getElementById("reviewCountry").value =
     data.country || "";
