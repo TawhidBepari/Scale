@@ -1792,32 +1792,91 @@ async function submitReview(){
 
   }
 
-  console.log("Review data:",{
+ let result;
 
-    service_id: currentService.id,
+if(existingReviewId){
 
-    email,
+  result =
+    await supabaseClient
+      .from("reviews")
+      .update({
 
-    name,
+        client_name: name,
 
-    company,
+        company: company,
 
-    country,
+        country: country,
 
-    rating: selectedRating,
+        rating: selectedRating,
 
-    review
+        review: review,
 
-  });
+        verified: true,
+
+        active: true
+
+      })
+      .eq("id", existingReviewId);
+
+}else{
+
+  result =
+    await supabaseClient
+      .from("reviews")
+      .insert({
+
+        service_id: currentService.id,
+
+        customer_email: email,
+
+        client_name: name,
+
+        company: company,
+
+        country: country,
+
+        rating: selectedRating,
+
+        review: review,
+
+        verified: true,
+
+        active: true
+
+      });
+
+}
+
+if(result.error){
+
+  console.error(result.error);
 
   reviewStatus.className =
-    "review-status success";
+    "review-status error";
 
   reviewStatus.innerText =
-    "Validation complete.";
+    result.error.message;
 
   submitReviewBtn.disabled = false;
 
+  return;
+
+}
+
+reviewStatus.className =
+  "review-status success";
+
+reviewStatus.innerText =
+  existingReviewId
+    ? "Review updated successfully!"
+    : "Review submitted successfully!";
+
+submitReviewBtn.disabled = false;
+
+closeReviewModal();
+
+await loadReviews(currentService.id);  
+  
 }
 
 });
