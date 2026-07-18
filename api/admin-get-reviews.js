@@ -17,6 +17,16 @@ module.exports = async function handler(req, res) {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
+    console.log(
+  "SERVICE KEY EXISTS:",
+  !!process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
+console.log(
+  "SERVICE KEY PREFIX:",
+  process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0,20)
+);
+    
     const { data, error } = await supabase
       .from("reviews")
       .select(`
