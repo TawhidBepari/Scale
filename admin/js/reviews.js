@@ -154,31 +154,36 @@ if(toggleBtn){
 
   toggleBtn.onclick = async () => {
 
-    const active =
-      toggleBtn.dataset.active === "true";
+  const active =
+    toggleBtn.dataset.active === "true";
 
-    const { error } =
-      await supabaseClient
+  console.log("Review ID:", review.id);
+  console.log("Current active:", active);
 
-        .from("reviews")
+  const result =
+    await supabaseClient
+      .from("reviews")
+      .update({
+        active: !active
+      })
+      .eq("id", review.id)
+      .select();
 
-        .update({
-          active: !active
-        })
+  console.log("Update result:", result);
 
-        .eq("id", review.id);
+  if(result.error){
 
-    if(error){
+    console.error(result.error);
 
-      alert(error.message);
+    alert(result.error.message);
 
-      return;
+    return;
 
-    }
+  }
 
-    loadReviews();
+  loadReviews();
 
-  };
+};
 
 }
 
