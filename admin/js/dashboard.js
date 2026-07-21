@@ -37,13 +37,3 @@ menuButtons.forEach(button => {
   };
 
 });
-
-loadServices();
-
-loadBonusServiceOptions();
-
-loadBonuses();
-
-loadReviews();
-
-loadPaymentRequests();
