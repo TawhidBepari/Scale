@@ -86,6 +86,57 @@ const { data, error } =
 
       </p>
 
+      <div
+class="review-edit-box"
+style="display:none;"
+>
+
+<input
+class="edit-client-name"
+value="${review.client_name || ""}"
+placeholder="Client Name"
+>
+
+<input
+class="edit-company"
+value="${review.company || ""}"
+placeholder="Company"
+>
+
+<input
+class="edit-country"
+value="${review.country || ""}"
+placeholder="Country"
+>
+
+<select class="edit-rating">
+
+<option value="5" ${review.rating==5?"selected":""}>★★★★★</option>
+
+<option value="4" ${review.rating==4?"selected":""}>★★★★☆</option>
+
+<option value="3" ${review.rating==3?"selected":""}>★★★☆☆</option>
+
+<option value="2" ${review.rating==2?"selected":""}>★★☆☆☆</option>
+
+<option value="1" ${review.rating==1?"selected":""}>★☆☆☆☆</option>
+
+</select>
+
+<textarea
+class="edit-review-text"
+>${review.review}</textarea>
+
+<button
+class="save-review-btn"
+>
+
+Save Changes
+
+</button>
+
+</div>
+
       <div style="
         margin-top:12px;
       ">
@@ -123,6 +174,15 @@ data-featured="${review.featured}"
 ${review.featured
 ? "Remove Feature"
 : "Feature Review"}
+
+</button>
+
+<button
+class="edit-review-btn"
+data-id="${review.id}"
+>
+
+Edit Review
 
 </button>
 
