@@ -108,17 +108,25 @@ data-id="${review.id}"
 data-active="${review.active}"
 >
 
-${
-review.active
-
+${review.active
 ? "Hide Review"
-
-: "Publish Review"
-}
+: "Publish Review"}
 
 </button>
 
-</div> 
+<button
+class="feature-review-btn"
+data-id="${review.id}"
+data-featured="${review.featured}"
+>
+
+${review.featured
+? "Remove Feature"
+: "Feature Review"}
+
+</button>
+
+</div>
       
       <div class="reply-box">
 
