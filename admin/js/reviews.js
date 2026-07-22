@@ -316,6 +316,62 @@ if(editBtn){
   };
 
 }
+
+const saveReviewBtn =
+  card.querySelector(".save-review-btn");
+
+if(saveReviewBtn){
+
+  saveReviewBtn.onclick = async () => {
+
+    const clientName =
+      card.querySelector(".edit-client-name").value.trim();
+
+    const company =
+      card.querySelector(".edit-company").value.trim();
+
+    const country =
+      card.querySelector(".edit-country").value.trim();
+
+    const rating =
+      parseInt(
+        card.querySelector(".edit-rating").value
+      );
+
+    const reviewText =
+      card.querySelector(".edit-review-text").value.trim();
+
+    const { error } =
+      await supabaseClient
+        .from("reviews")
+        .update({
+
+          client_name: clientName,
+
+          company: company,
+
+          country: country,
+
+          rating: rating,
+
+          review: reviewText
+
+        })
+        .eq("id", review.id);
+
+    if(error){
+
+      alert(error.message);
+
+      return;
+
+    }
+
+    loadReviews();
+
+  };
+
+}
     
     const saveReplyBtn =
   card.querySelector(".save-reply-btn");
