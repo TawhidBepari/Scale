@@ -1155,10 +1155,13 @@ async function loadReviews(serviceId){
     )
   `)
     .eq("service_id", serviceId)
-    .eq("active", true)
-    .order("created_at", {
-      ascending:false
-    });
+.eq("active", true)
+.order("featured", {
+  ascending:false
+})
+.order("created_at", {
+  ascending:false
+});
 
   if(error){
 
