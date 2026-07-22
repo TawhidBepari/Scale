@@ -195,6 +195,38 @@ if(toggleBtn){
 
 }
 
+const featureBtn =
+  card.querySelector(".feature-review-btn");
+
+if(featureBtn){
+
+  featureBtn.onclick = async () => {
+
+    const featured =
+      featureBtn.dataset.featured === "true";
+
+    const { error } =
+      await supabaseClient
+        .from("reviews")
+        .update({
+          featured: !featured
+        })
+        .eq("id", review.id);
+
+    if(error){
+
+      alert(error.message);
+
+      return;
+
+    }
+
+    loadReviews();
+
+  };
+
+}
+    
     const saveReplyBtn =
   card.querySelector(".save-reply-btn");
 
