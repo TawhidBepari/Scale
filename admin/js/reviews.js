@@ -286,6 +286,36 @@ if(featureBtn){
   };
 
 }
+
+const editBtn =
+  card.querySelector(".edit-review-btn");
+
+const editBox =
+  card.querySelector(".review-edit-box");
+
+if(editBtn){
+
+  editBtn.onclick = () => {
+
+    if(editBox.style.display === "none"){
+
+      editBox.style.display = "block";
+
+      editBtn.innerText = "Cancel Edit";
+
+    }
+
+    else{
+
+      editBox.style.display = "none";
+
+      editBtn.innerText = "Edit Review";
+
+    }
+
+  };
+
+}
     
     const saveReplyBtn =
   card.querySelector(".save-reply-btn");
