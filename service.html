@@ -1155,6 +1155,7 @@ async function loadReviews(serviceId){
     )
   `)
     .eq("service_id", serviceId)
+    .eq("active", true)
     .order("created_at", {
       ascending:false
     });
