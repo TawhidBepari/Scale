@@ -186,6 +186,21 @@ Edit Review
 
 </button>
 
+<button
+class="delete-review-btn"
+style="
+background:#dc2626;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:12px;
+cursor:pointer;
+font-weight:700;
+"
+>
+Delete Review
+</button>
+
 </div>
       
       <div class="reply-box">
@@ -317,6 +332,48 @@ if(editBtn){
 
 }
 
+const deleteBtn =
+  card.querySelector(".delete-review-btn");
+
+if(deleteBtn){
+
+  deleteBtn.onclick = async () => {
+
+    const confirmed = confirm(
+
+      "Delete this review permanently?"
+
+    );
+
+    if(!confirmed){
+
+      return;
+
+    }
+
+    const result =
+      await supabaseClient
+
+        .from("reviews")
+
+        .delete()
+
+        .eq("id", review.id);
+
+    if(result.error){
+
+      alert(result.error.message);
+
+      return;
+
+    }
+
+    loadReviews();
+
+  };
+
+}
+    
 const saveReviewBtn =
   card.querySelector(".save-review-btn");
 
