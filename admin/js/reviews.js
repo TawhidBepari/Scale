@@ -340,9 +340,7 @@ if(deleteBtn){
   deleteBtn.onclick = async () => {
 
     const confirmed = confirm(
-
       "Delete this review permanently?"
-
     );
 
     if(!confirmed){
@@ -351,18 +349,33 @@ if(deleteBtn){
 
     }
 
+    const response = await fetch(
+      "/api/admin-delete-review",
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+
+          id: review.id
+
+        })
+
+      }
+    );
+
     const result =
-      await supabaseClient
+      await response.json();
 
-        .from("reviews")
+    if(!response.ok){
 
-        .delete()
-
-        .eq("id", review.id);
-
-    if(result.error){
-
-      alert(result.error.message);
+      alert(
+        result.error || "Delete failed."
+      );
 
       return;
 
