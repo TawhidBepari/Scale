@@ -104,6 +104,18 @@
 
 }
 
+.summary-service-name{
+
+  display:block;
+
+  margin-top:4px;
+
+  color:#d1d5db;
+
+  font-weight:600;
+
+}
+    
     h1{
       font-size:4rem;
       line-height:1.05;
@@ -1274,12 +1286,11 @@ ${average}
 
 <div class="summary-count">
 
-${data.length}
-Verified Review${data.length > 1 ? "s" : ""}
+Based on ${data.length} verified review${data.length > 1 ? "s" : ""} for ${currentService?.title || "this service"}
 
 </div>
 
-`;  
+`;
   
   data.forEach(review => {
 
