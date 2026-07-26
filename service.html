@@ -376,6 +376,32 @@ flex-wrap:wrap;
 
 }
 
+.review-company{
+
+display:block;
+
+margin-top:4px;
+
+font-size:.92rem;
+
+font-weight:600;
+
+color:#d1d5db;
+
+}
+
+.review-country{
+
+display:block;
+
+margin-top:2px;
+
+font-size:.82rem;
+
+color:#94a3b8;
+
+}
+    
 .featured-review-badge{
 
 display:inline-flex;
@@ -1282,6 +1308,26 @@ ${"★".repeat(review.rating || 5)}
 ${review.client_name}
 
 </strong>
+
+${
+review.company
+? `<span class="review-company">
+
+${review.company}
+
+</span>`
+: ""
+}
+
+${
+review.country
+? `<span class="review-country">
+
+${review.country}
+
+</span>`
+: ""
+}
 
 ${review.featured ? `
 <div class="featured-review-badge">
