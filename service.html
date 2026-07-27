@@ -375,43 +375,34 @@ line-height:1.7;
 }
 
 .review-author{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
 
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-margin-bottom:18px;
-
-flex-wrap:wrap;
-
+.review-author-main{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 
 .review-company{
-
-display:block;
-
-margin-top:4px;
-
-font-size:.92rem;
-
-font-weight:600;
-
-color:#d1d5db;
-
+  font-size:.95rem;
+  font-weight:600;
+  color:#d1d5db;
 }
 
 .review-country{
+  font-size:.82rem;
+  color:#94a3b8;
+}
 
-display:block;
-
-margin-top:2px;
-
-font-size:.82rem;
-
-color:#94a3b8;
-
+.review.featured-review{
+  border-color:rgba(245,158,11,.35);
+  box-shadow:0 0 0 1px rgba(245,158,11,.12), 0 12px 30px rgba(0,0,0,.18);
 }
     
 .featured-review-badge{
@@ -1300,7 +1291,7 @@ for ${currentService?.title || "this service"}
 
     const div = document.createElement("div");
 
-    div.className = "review";
+    div.className = review.featured ? "review featured-review" : "review";
 
     div.innerHTML = `
 
@@ -1318,51 +1309,33 @@ ${"★".repeat(review.rating || 5)}
 
 <div class="review-author">
 
-<strong>
+  <div class="review-author-main">
+    <strong>${review.client_name}</strong>
 
-${review.client_name}
+    ${
+      review.company
+      ? `<span class="review-company">${review.company}</span>`
+      : ""
+    }
 
-</strong>
+    ${
+      review.country
+      ? `<span class="review-country">${review.country}</span>`
+      : ""
+    }
+  </div>
 
-${
-review.company
-? `<span class="review-company">
+  ${review.featured ? `
+    <div class="featured-review-badge">
+      ⭐ Featured Review
+    </div>
+  ` : ""}
 
-${review.company}
-
-</span>`
-: ""
-}
-
-${
-review.country
-? `<span class="review-country">
-
-${review.country}
-
-</span>`
-: ""
-}
-
-${review.featured ? `
-<div class="featured-review-badge">
-
-⭐ Featured Review
-
-</div>
-` : ""}
-
-${
-review.verified
-
-? `<span class="verified-badge">
-
-✓ Verified Client
-
-</span>`
-
-: ""
-}
+  ${
+    review.verified
+    ? `<span class="verified-badge">✓ Verified Client</span>`
+    : ""
+  }
 
 </div>
 
