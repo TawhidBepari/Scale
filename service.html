@@ -325,38 +325,42 @@
 }
     
     .reviews{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:24px;
-      margin-top:24px;
-    }
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:24px;
+margin-top:24px;
+}
 
-    .review{
-      background:#111821;
-      border-radius:22px;
-      padding:24px;
-      border:1px solid rgba(255,255,255,.06);
-    }
+```
+.review{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  background:#111821;
+  border-radius:22px;
+  padding:24px;
+  border:1px solid rgba(255,255,255,.06);
+}
 
-    .review p{
-      color:#c6d2dd;
-      margin-bottom:16px;
-    }
+.review p{
+  color:#c6d2dd;
+  margin-bottom:16px;
+}
 
-    .review strong{
-      display:block;
-      margin-top:12px;
-    }
+.review strong{
+  display:block;
+}
 
-    footer{
-      padding:40px 0;
-      border-top:1px solid rgba(255,255,255,.06);
-      color:#93a4b4;
-      text-align:center;
-      margin-top:80px;
-    }
+footer{
+  padding:40px 0;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:#93a4b4;
+  text-align:center;
+  margin-top:80px;
+}
 
-    .review-stars{
+.review-stars{
+```
 
 color:#fbbf24;
 
@@ -375,36 +379,36 @@ line-height:1.7;
 }
 
 .review-author{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:16px;
-  margin-bottom:18px;
-  flex-wrap:wrap;
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:16px;
+margin-bottom:18px;
+flex-wrap:wrap;
 }
 
 .review-author-main{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+display:flex;
+flex-direction:column;
+gap:4px;
 }
 
 .review-company{
-  font-size:.95rem;
-  font-weight:600;
-  color:#d1d5db;
+font-size:.95rem;
+font-weight:600;
+color:#d1d5db;
 }
 
 .review-country{
-  font-size:.82rem;
-  color:#94a3b8;
+font-size:.82rem;
+color:#94a3b8;
 }
 
 .review.featured-review{
-  border-color:rgba(245,158,11,.35);
-  box-shadow:0 0 0 1px rgba(245,158,11,.12), 0 12px 30px rgba(0,0,0,.18);
+border-color:rgba(245,158,11,.35);
+box-shadow:0 0 0 1px rgba(245,158,11,.12), 0 12px 30px rgba(0,0,0,.18);
 }
-    
+
 .featured-review-badge{
 
 display:inline-flex;
@@ -430,7 +434,7 @@ font-size:.82rem;
 font-weight:700;
 
 }
-    
+
 .verified-badge{
 
 background:#0f766e;
@@ -507,7 +511,7 @@ color:#94a3b8;
 
 font-size:.95rem;
 
-}    
+}
 
 .leave-review-text{
 
@@ -672,6 +676,12 @@ color:#ef4444;
 
 color:#38bdf8;
 
+}
+
+@media(max-width:900px){
+.review-author{
+flex-direction:column;
+}
 }
     
     @media screen and (max-width:900px){
