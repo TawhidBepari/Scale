@@ -658,6 +658,76 @@ color:#fbbf24;
 
 }
 
+.rating-breakdown{
+
+margin:28px 0 36px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+.rating-row{
+
+display:grid;
+
+grid-template-columns:70px 1fr 35px;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.rating-label{
+
+font-size:.9rem;
+
+color:#d1d5db;
+
+font-weight:600;
+
+}
+
+.rating-bar{
+
+height:10px;
+
+background:#1e293b;
+
+border-radius:999px;
+
+overflow:hidden;
+
+}
+
+.rating-fill{
+
+height:100%;
+
+background:#fbbf24;
+
+border-radius:999px;
+
+transition:width .35s ease;
+
+}
+
+.rating-count{
+
+text-align:right;
+
+font-size:.85rem;
+
+color:#94a3b8;
+
+font-weight:600;
+
+}
+    
 .review-status{
 
 margin-top:14px;
@@ -905,6 +975,8 @@ Reviews
   class="review-summary"
 ></div>
 
+<div id="ratingBreakdown" class="rating-breakdown"></div>
+   
   <div
     class="reviews"
     id="reviewsContainer"
@@ -1300,6 +1372,26 @@ const average = (
   ) / data.length
 ).toFixed(1);
 
+const ratings = {
+
+5:0,
+
+4:0,
+
+3:0,
+
+2:0,
+
+1:0
+
+};
+
+data.forEach(review=>{
+
+ratings[review.rating]++;
+
+});
+  
 document.getElementById(
   "reviewSummary"
 ).innerHTML = `
@@ -1329,6 +1421,53 @@ for ${currentService?.title || "this service"}
 </div>
 
 `;
+
+const breakdown =
+document.getElementById(
+"ratingBreakdown"
+);
+
+breakdown.innerHTML="";
+
+[5,4,3,2,1].forEach(star=>{
+
+const count=ratings[star];
+
+const percent=
+data.length
+? (count/data.length)*100
+:0;
+
+breakdown.innerHTML+=`
+
+<div class="rating-row">
+
+<div class="rating-label">
+
+${"★".repeat(star)}
+
+</div>
+
+<div class="rating-bar">
+
+<div
+class="rating-fill"
+style="width:${percent}%"
+></div>
+
+</div>
+
+<div class="rating-count">
+
+${count}
+
+</div>
+
+</div>
+
+`;
+
+});
   
   data.forEach(review => {
 
