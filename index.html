@@ -650,15 +650,25 @@ console.log(data);
 
     card.innerHTML = `
 
-      <p>
-        "${review.review_text || ""}"
-      </p>
+<div class="review-stars">
 
-      <strong>
-        — ${review.reviewer_name || "Anonymous"}
-      </strong>
+${"★".repeat(review.rating || 5)}
 
-    `;
+</div>
+
+<p class="review-text">
+
+"${review.review || ""}"
+
+</p>
+
+<strong>
+
+${review.client_name || "Anonymous"}
+
+</strong>
+
+`;
 
     container.appendChild(card);
 
