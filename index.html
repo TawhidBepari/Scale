@@ -597,10 +597,23 @@ async function loadReviews(){
 
   const { data, error } = await supabaseClient
     .from("reviews")
-    .select("*")
-    .order("created_at", {
-      ascending:false
-    });
+.select(`
+  *,
+  services (
+    title,
+    slug
+  ),
+  review_replies (
+    reply
+  )
+`)
+.eq("active", true)
+.order("featured", {
+  ascending: false
+})
+.order("created_at", {
+  ascending: false
+})
 
   if(error){
 
@@ -609,6 +622,8 @@ async function loadReviews(){
     return;
   }
 
+console.log(data);
+  
   const container =
     document.getElementById("reviewsContainer");
 
