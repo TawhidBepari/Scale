@@ -610,16 +610,15 @@ ${
 async function loadReviews(){
 
   const { data, error } = await supabaseClient
-   .from("reviews")
+    .from("reviews")
   .select(`
     *,
-    services (
-      title,
-      slug
+    review_replies (
+      reply
     )
   `)
   .eq("active", true);
-
+  
   if(error){
 
     console.error(error);
