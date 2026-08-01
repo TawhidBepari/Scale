@@ -495,11 +495,6 @@
 
 <script>
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
 async function loadServices(){
 
   const { data, error } = await supabaseClient
