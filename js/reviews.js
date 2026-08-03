@@ -43,6 +43,8 @@ console.log(data);
 
     card.className = "review";
 
+    console.log(review);
+    
     card.innerHTML = `
 
 <div class="review-stars">
