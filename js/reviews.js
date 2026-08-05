@@ -1,14 +1,24 @@
 async function loadReviews(){
 
-  const { data, error } = await supabaseClient
-    .from("reviews")
+const { data, error } = await supabaseClient
+  .from("reviews")
   .select(`
     *,
+    services (
+      title,
+      slug
+    ),
     review_replies (
       reply
     )
   `)
-  .eq("active", true);
+  .eq("active", true)
+  .order("featured", {
+    ascending: false
+  })
+  .order("created_at", {
+    ascending: false
+  });
   
   if(error){
 
