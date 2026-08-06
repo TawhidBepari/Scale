@@ -1,3 +1,9 @@
+function createReviewCard(review, showServiceBadge = false) {
+
+  return `...`;
+
+}
+
 async function loadReviews(){
 
 const { data, error } = await supabaseClient
