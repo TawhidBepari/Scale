@@ -52,6 +52,23 @@ ${"★".repeat(review.rating || 5)}
 ${timeAgo(review.created_at)}
 
 </div>
+
+${
+showServiceBadge && review.services
+? `
+<a
+class="review-service-badge"
+href="service.html?slug=${review.services.slug}"
+>
+
+${review.services.title}
+
+</a>
+`
+: ""
+}
+
+  
   
   `;
 
