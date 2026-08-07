@@ -1,7 +1,6 @@
 function createReviewCard(review, showServiceBadge = false) {
 
   return `
-   div.innerHTML = `
 
 <div class="review-stars">
 
@@ -88,18 +87,11 @@ ${review.review_replies[0].reply}
 </p>
 
 </div>
-
 `
-
 : ""
-
 }
 
 `;
-
-    container.appendChild(div);  
-  
-  `;
 
 }
 
