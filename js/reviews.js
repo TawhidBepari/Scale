@@ -1,6 +1,59 @@
 function createReviewCard(review, showServiceBadge = false) {
 
-  return `...`;
+  return `
+   div.innerHTML = `
+
+<div class="review-stars">
+
+${"★".repeat(review.rating || 5)}
+
+</div>
+
+<p class="review-text">
+
+"${review.review}"
+
+</p>
+
+<div class="review-author">
+
+  <div class="review-author-main">
+    <strong>${review.client_name}</strong>
+
+    ${
+      review.company
+      ? `<span class="review-company">${review.company}</span>`
+      : ""
+    }
+
+    ${
+      review.country
+      ? `<span class="review-country">${review.country}</span>`
+      : ""
+    }
+  </div>
+
+  ${review.featured ? `
+    <div class="featured-review-badge">
+      ⭐ Featured Review
+    </div>
+  ` : ""}
+
+  ${
+    review.verified
+    ? `<span class="verified-badge">✓ Verified Client</span>`
+    : ""
+  }
+
+</div>
+
+<div class="review-date">
+
+${timeAgo(review.created_at)}
+
+</div>
+  
+  `;
 
 }
 
