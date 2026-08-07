@@ -68,7 +68,36 @@ ${review.services.title}
 : ""
 }
 
-  
+${
+review.review_replies?.length
+
+? `
+
+<div class="review-reply">
+
+<div class="reply-title">
+
+Reply from SCALE
+
+</div>
+
+<p>
+
+${review.review_replies[0].reply}
+
+</p>
+
+</div>
+
+`
+
+: ""
+
+}
+
+`;
+
+    container.appendChild(div);  
   
   `;
 
