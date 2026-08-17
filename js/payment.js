@@ -89,3 +89,27 @@ document.getElementById(
 ).value = "";
 
 }
+
+document.getElementById("buyBtn").onclick = () => {
+
+  const box =
+    document.getElementById("paymentBox");
+
+  box.style.display =
+    box.style.display === "block"
+      ? "none"
+      : "block";
+
+};
+
+document.getElementById("fullPaymentBtn").onclick = () => {
+
+  createRequest("full_payment");
+
+};
+
+document.getElementById("installmentBtn").onclick = () => {
+
+  createRequest("installment");
+
+};
