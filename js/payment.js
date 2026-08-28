@@ -109,14 +109,28 @@ if(buyBtn){
 
 }
 
-document.getElementById("fullPaymentBtn").onclick = () => {
+const fullPaymentBtn =
+  document.getElementById("fullPaymentBtn");
 
-  createRequest("full_payment");
+if(fullPaymentBtn){
 
-};
+  fullPaymentBtn.onclick = () => {
 
-document.getElementById("installmentBtn").onclick = () => {
+    createRequest("full_payment");
 
-  createRequest("installment");
+  };
 
-};
+}
+
+const installmentBtn =
+  document.getElementById("installmentBtn");
+
+if(installmentBtn){
+
+  installmentBtn.onclick = () => {
+
+    createRequest("installment");
+
+  };
+
+}
