@@ -90,17 +90,24 @@ document.getElementById(
 
 }
 
-document.getElementById("buyBtn").onclick = () => {
+const buyBtn =
+  document.getElementById("buyBtn");
 
-  const box =
-    document.getElementById("paymentBox");
+if(buyBtn){
 
-  box.style.display =
-    box.style.display === "block"
-      ? "none"
-      : "block";
+  buyBtn.onclick = () => {
 
-};
+    const box =
+      document.getElementById("paymentBox");
+
+    box.style.display =
+      box.style.display === "block"
+        ? "none"
+        : "block";
+
+  };
+
+}
 
 document.getElementById("fullPaymentBtn").onclick = () => {
 
