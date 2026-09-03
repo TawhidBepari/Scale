@@ -1,3 +1,31 @@
+const params =
+  new URLSearchParams(window.location.search);
+
+const slug = params.get("slug");
+
+let currentService = null;
+
+function showNotFound(){
+
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#0b0f14;
+      color:white;
+      font-family:Inter,sans-serif;
+      font-size:2rem;
+      text-align:center;
+      padding:20px;
+    ">
+      Service not found
+    </div>
+  `;
+
+}
+
 async function loadService(){
 
   if(!slug){
