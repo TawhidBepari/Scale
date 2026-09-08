@@ -155,3 +155,5 @@ if(data.tags){
   loadReviews(data.id);
 
 }
+
+loadService();
