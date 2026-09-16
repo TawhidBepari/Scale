@@ -175,6 +175,10 @@
   gap: 16px;
 }
 
+#verifiedReviewFields {
+  display: none;
+}
+
 .review-modal-content input,
 .review-modal-content textarea {
   width: 100%;
