@@ -5,6 +5,7 @@ const slug = params.get("slug");
 
 let currentService = null;
 
+
 function showNotFound(){
 
   document.body.innerHTML = `
@@ -26,6 +27,7 @@ function showNotFound(){
 
 }
 
+
 async function loadService(){
 
   if(!slug){
@@ -35,12 +37,14 @@ async function loadService(){
     return;
   }
 
+
   const { data, error } = await supabaseClient
     .from("services")
     .select("*")
     .eq("slug", slug)
     .eq("active", true)
     .maybeSingle();
+
 
   if(error || !data){
 
@@ -51,60 +55,68 @@ async function loadService(){
     return;
   }
 
-currentService = data;
 
-console.log(data.tags);
-  
+  currentService = data;
+
+
   document.title =
     (data.title || "Service") + " — SCALE";
+
 
   document.getElementById("serviceName").innerText =
     data.title || "Untitled Service";
 
+
   document.getElementById("serviceDescription").innerText =
     data.full_description || "No description available.";
+
 
   document.getElementById("servicePrice").innerText =
     "$" + (data.price_full || "0");
 
+
   document.getElementById("remainingSpots").innerText =
     data.spots_remaining ?? "Unlimited";
 
+
   document.getElementById("sessionDate").innerText =
     data.session_start || "TBA";
+
 
   document.getElementById("serviceImage").src =
     data.cover_image ||
     "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop";
 
-const tagsContainer =
-  document.getElementById(
-    "serviceTags"
-  );
 
-tagsContainer.innerHTML = "";
+  const tagsContainer =
+    document.getElementById("serviceTags");
 
-if(data.tags){
 
-  data.tags
-    .split(",")
-    .map(tag => tag.trim())
-    .filter(tag => tag)
-    .forEach(tag => {
+  tagsContainer.innerHTML = "";
 
-      tagsContainer.innerHTML += `
 
-        <span class="service-tag">
+  if(data.tags){
 
-          ${tag}
+    data.tags
+      .split(",")
+      .map(tag => tag.trim())
+      .filter(tag => tag)
+      .forEach(tag => {
 
-        </span>
+        tagsContainer.innerHTML += `
 
-      `;
+          <span class="service-tag">
 
-    });
+            ${tag}
 
-}
+          </span>
+
+        `;
+
+      });
+
+  }
+
 
   if(data.installment_enabled){
 
@@ -119,6 +131,7 @@ if(data.tags){
       .style.display = "none";
 
   }
+
 
   if(
     data.personal_payment_enabled &&
@@ -148,6 +161,7 @@ if(data.tags){
 
   }
 
+
   startCountdown(data.countdown_end);
 
   loadBonuses(data.id);
@@ -155,5 +169,6 @@ if(data.tags){
   loadReviews(data.id);
 
 }
+
 
 loadService();
