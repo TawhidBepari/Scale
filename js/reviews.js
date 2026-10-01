@@ -173,10 +173,6 @@ async function loadReviews(serviceId) {
 
   }
 
-
-  console.log(data);
-
-
   const container =
     document.getElementById(
       "reviewsContainer"
@@ -416,10 +412,6 @@ async function loadAllReviews() {
     return;
 
   }
-
-
-  console.log(data);
-
 
   const container =
     document.getElementById(
